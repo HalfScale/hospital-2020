@@ -1,5 +1,6 @@
 package hospital.rest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,11 @@ public class RoomReservationsRestController {
 	
 	@DeleteMapping("/room_reservations/{id}")
 	public MyResponseObject deleteRoomReservation(@PathVariable int id) {
-		roomReservationService.deleteRoomReservation(id);
+		RoomReservation roomReservation = roomReservationService.getRoomReservation(id);
+		roomReservation.setDeleted(true);
+		roomReservation.setDeletedDate(LocalDateTime.now());
+		roomReservationService.saveRoomReservation(roomReservation);
+		
 		MyResponseObject response = new MyResponseObject();
 		response.setCode("202");
 		response.setResponse("Deletion successful!");

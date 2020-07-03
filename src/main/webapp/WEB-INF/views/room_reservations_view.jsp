@@ -20,7 +20,7 @@
 			
 			<h3 class="text-center"><span class="roomName"></span></h3>
 			
-			<section class="button-pane">
+			<section class="button-pane-top">
 			
 			</section>
 			
@@ -59,8 +59,10 @@
 					</tr>
 	            </tbody>
         	</table>
-        	<a href="../../reservations"><button class="btn btn-primary m-1">Back</button></a>
-        	<button class="editBtn btn btn-primary m-1">Edit</button>
+        	
+        	<section class="button-pane-bottom">
+	        	<a href="../../reservations"><button class="btn btn-primary m-1">Back</button></a>
+        	</section>
 		</div>
 	</jsp:body>
 </t:system_page>

@@ -20,7 +20,7 @@ public class RoomReservationDAOImpl implements RoomReservationDAO {
 	public List<RoomReservation> getRoomReservations() {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<RoomReservation> theQuery = currentSession.createQuery("from RoomReservation", RoomReservation.class);
+		Query<RoomReservation> theQuery = currentSession.createQuery("from RoomReservation where deleted = 0", RoomReservation.class);
 		
 		return theQuery.getResultList();
 	}

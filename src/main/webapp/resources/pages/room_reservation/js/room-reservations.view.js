@@ -19,10 +19,12 @@ $(function() {
 		$('.description').text(result.hospitalRoom.description);
 		
 		if(result.reservationStatus == 0) {
-			let buttonPane = $('.button-pane');
+			let buttonPaneTop = $('.button-pane-top');
 			
-			$('<button>').text('Cancel').addClass('cancelBtn btn btn-primary m-1').appendTo(buttonPane);
-			$('<button>').text('Done').addClass('doneBtn btn btn-primary m-1').appendTo(buttonPane);
+			$('<button>').text('Cancel').addClass('cancelBtn btn btn-primary m-1').appendTo(buttonPaneTop);
+			$('<button>').text('Done').addClass('doneBtn btn btn-primary m-1').appendTo(buttonPaneTop);
+			
+			$('<button>').text('Edit').addClass('editBtn btn btn-primary m-1').appendTo($('.button-pane-bottom'));
 		}
 	});
 	

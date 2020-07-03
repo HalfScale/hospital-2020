@@ -10,7 +10,7 @@
 
 	<jsp:attribute name="scripts">
 		<script
-			src="${pageContext.request.contextPath}/resources/pages/room_reservation/js/room-reservations.save.js"></script>
+			src="${pageContext.request.contextPath}/resources/pages/room_reservation/js/room-reservations.edit.js"></script>
 	</jsp:attribute>
 
 	<jsp:body>

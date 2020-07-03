@@ -39,7 +39,7 @@ public class RoomReservationsController {
 	
 	@GetMapping("/edit/{id}")
 	public String editReservation() {
-		return "room_reservations_save";
+		return "room_reservations_edit";
 	}
 	
 	@GetMapping("/details/{id}")

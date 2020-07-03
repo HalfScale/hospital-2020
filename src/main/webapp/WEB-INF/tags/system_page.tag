@@ -27,7 +27,7 @@
 					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/registration">Sign Up</a>
 					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/users/login">Login</a>
 					<a class="nav-item nav-link" href="#">Doctors</a>
-					<a class="nav-item nav-link" href="#">Reservations</a>
+					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/reservations">Reservations</a>
 					<a class="nav-item nav-link" href="#">Appointments</a>
 				</div>
 			</div>

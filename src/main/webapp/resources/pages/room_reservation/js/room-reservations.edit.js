@@ -71,6 +71,8 @@ $(function() {
 						type: 'info'
 					});
 					
+					window.location.href='../../reservations';
+					
 				}, 
 				failure: function (errMsg) {
 					console.log(errMsg)

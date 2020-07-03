@@ -3,6 +3,7 @@
 package hospital.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
@@ -22,10 +23,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 /**
@@ -76,14 +75,12 @@ public class RoomReservation {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="reserved_end_date")
 	private LocalDate reservedEndDate;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	@JsonSerialize(using = LocalTimeSerializer.class)
 	@JsonDeserialize(using = LocalTimeDeserializer.class)
-//	@DateTimeFormat(pattern = "HH:mm:ss")
 	@Column(name="reserved_end_time")
 	private LocalTime reservedEndTime;
 	
@@ -92,6 +89,27 @@ public class RoomReservation {
 	
 	@Column(name="reservation_status")
 	private int reservationStatus;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = LocalTimeSerializer.class)
+	@JsonDeserialize(using = LocalTimeDeserializer.class)
+	@Column(name="created")
+	private LocalDateTime created;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = LocalTimeSerializer.class)
+	@JsonDeserialize(using = LocalTimeDeserializer.class)
+	@Column(name="modified")
+	private LocalDateTime modified;
+	
+	@Column(name="deleted")
+	private boolean deleted;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = LocalTimeSerializer.class)
+	@JsonDeserialize(using = LocalTimeDeserializer.class)
+	@Column(name="deleted_date")
+	private LocalDateTime deletedDate;
 
 	public int getId() {
 		return id;
@@ -171,6 +189,38 @@ public class RoomReservation {
 
 	public void setReservedEndTime(LocalTime reservedEndTime) {
 		this.reservedEndTime = reservedEndTime;
+	}
+
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
+
+	public LocalDateTime getModified() {
+		return modified;
+	}
+
+	public void setModified(LocalDateTime modified) {
+		this.modified = modified;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
 	}
 	
 	
