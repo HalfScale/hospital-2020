@@ -16,8 +16,7 @@
 
 	<jsp:body>
 	
-	<form:form action="${pageContext.request.contextPath}/authenticate_user"
-			method="POST">
+	<form:form action="${pageContext.request.contextPath}/authenticateUser" method="POST">
 			
 		<div class="form-group">
 	    <label for="usernameField">Username</label>
