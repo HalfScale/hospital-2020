@@ -35,7 +35,7 @@ public class UserDetail {
 	private int id;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="username")
+	@JoinColumn(name="users_id")
 	@JsonIgnore
 	private User user;
 	

@@ -11,6 +11,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -28,8 +30,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class User {
 	
 	@Id
-	@Column(name="username")
-	private String username;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
+	private int id;
 	
 	@Column(name="user_type")
 	private int userType;
@@ -49,12 +52,12 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Authorities> authorities = new HashSet<>();
 
-	public String getUsername() {
-		return username;
+	public int getId() {
+		return id;
 	}
 
-	public void setUsername(String id) {
-		this.username = id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getUserType() {
