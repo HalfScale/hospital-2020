@@ -5,6 +5,7 @@
  */
 package hospital.entity;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,14 +38,35 @@ public class User {
 	@Column(name="user_type")
 	private int userType;
 	
+	@Column(name="registration_token")
+	private int registrationToken;
+	
+	@Column(name="datetime_password_reset")
+	private LocalDateTime dateTimePasswordReset;
+	
 	@Column(name="email")
 	private String email;
 	
 	@Column(name="password")
 	private String password;
 	
+	@Column(name="is_confirmed")
+	private boolean isConfirmed;
+	
 	@Column(name = "enabled")
 	private boolean enabled;
+	
+	@Column(name = "created")
+	private LocalDateTime created;
+	
+	@Column(name = "modified")
+	private LocalDateTime modified;
+	
+	@Column(name = "deleted")
+	private boolean deleted;
+	
+	@Column(name = "deleted_date")
+	private LocalDateTime deletedDate;
 	
 	@OneToOne(mappedBy="user", cascade=CascadeType.ALL)
 	private UserDetail userDetail;
@@ -107,5 +129,63 @@ public class User {
 	public void setAuthorities(Set<Authorities> authorities) {
 		this.authorities = authorities;
 	}
+
+	public int getRegistrationToken() {
+		return registrationToken;
+	}
+
+	public void setRegistrationToken(int registrationToken) {
+		this.registrationToken = registrationToken;
+	}
+
+	public LocalDateTime getDateTimePasswordReset() {
+		return dateTimePasswordReset;
+	}
+
+	public void setDateTimePasswordReset(LocalDateTime dateTimePasswordReset) {
+		this.dateTimePasswordReset = dateTimePasswordReset;
+	}
+
+	public boolean isConfirmed() {
+		return isConfirmed;
+	}
+
+	public void setConfirmed(boolean isConfirmed) {
+		this.isConfirmed = isConfirmed;
+	}
+
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
+
+	public LocalDateTime getModified() {
+		return modified;
+	}
+
+	public void setModified(LocalDateTime modified) {
+		this.modified = modified;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
+	}
+	
+	
 	
 }

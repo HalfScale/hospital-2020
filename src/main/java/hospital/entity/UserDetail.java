@@ -6,6 +6,8 @@
 package hospital.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,8 +57,41 @@ public class UserDetail {
 	@Column(name="gender")
 	private int gender;
 	
+	@Column(name="address")
+	private String address;
+	
+	@Column(name="profile_image")
+	private String profileImage;
+	
 	@Column(name="doctor_code_id")
-	private Integer doctorCode;
+	private Integer doctorCodeId;
+	
+	@Column(name="doctor_description")
+	private String doctorDescription;
+	
+	@Column(name="no_of_years_experience")
+	private Integer noOfYearsExperience;
+	
+	@Column(name="education")
+	private String education;
+	
+	@Column(name="schedule")
+	private String schedule;
+	
+	@Column(name="expertise")
+	private String expertise;
+	
+	@Column(name = "created")
+	private LocalDateTime created;
+	
+	@Column(name = "modified")
+	private LocalDateTime modified;
+	
+	@Column(name = "deleted")
+	private boolean deleted;
+	
+	@Column(name = "deleted_date")
+	private LocalDateTime deletedDate;
 
 	public int getId() {
 		return id;
@@ -106,14 +141,6 @@ public class UserDetail {
 		this.birthDate = birthDate;
 	}
 
-	public Integer getDoctorCode() {
-		return doctorCode;
-	}
-
-	public void setDoctorCode(Integer doctorCode) {
-		this.doctorCode = doctorCode;
-	}
-
 	public int getGender() {
 		return gender;
 	}
@@ -122,8 +149,100 @@ public class UserDetail {
 		this.gender = gender;
 	}
 
-	@Override
-	public String toString() {
-		return "UserDetail{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", mobileNo=" + mobileNo + ", birthDate=" + birthDate;
+	public String getAddress() {
+		return address;
 	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+
+	public Integer getDoctorCodeId() {
+		return doctorCodeId;
+	}
+
+	public void setDoctorCodeId(Integer doctorCodeId) {
+		this.doctorCodeId = doctorCodeId;
+	}
+
+	public String getDoctorDescription() {
+		return doctorDescription;
+	}
+
+	public void setDoctorDescription(String doctorDescription) {
+		this.doctorDescription = doctorDescription;
+	}
+
+	public int getNoOfYearsExperience() {
+		return noOfYearsExperience;
+	}
+
+	public void setNoOfYearsExperience(int noOfYearsExperience) {
+		this.noOfYearsExperience = noOfYearsExperience;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
+	}
+
+	public String getExpertise() {
+		return expertise;
+	}
+
+	public void setExpertise(String expertise) {
+		this.expertise = expertise;
+	}
+
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
+
+	public LocalDateTime getModified() {
+		return modified;
+	}
+
+	public void setModified(LocalDateTime modified) {
+		this.modified = modified;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
+	}
+
 }

@@ -57,15 +57,18 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public User findUserByUsername(String email) {
 		Session session = sessionFactory.getCurrentSession();
+		
+		String hql = "select u from User u left join u.userDetail detail where u.email=:email and "
+				+ "detail is not null and u.isConfirmed = 1 and u.enabled = 1 and u.deleted = 0 and "
+				+ "u.userType in(1, 2, 3)";
 
-		Query<User> query = session.createQuery("from User where email=:email", User.class);
+		Query<User> query = session.createQuery(hql, User.class);
 		query.setParameter("email", email);
 
 		User user = null;
 		try {
 			user = query.getSingleResult();
-		} catch (NoResultException e) {
-			/* leave it blank */ }
+		} catch (NoResultException e) {}
 
 		return user != null ? user : null;
 	}
