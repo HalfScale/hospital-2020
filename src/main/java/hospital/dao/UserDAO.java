@@ -9,5 +9,7 @@ public interface UserDAO {
 	public void saveUser(User user);
 	public User getUser(int id);
 	public void deleteUser(int id);
-	public User findUserByUsername(String username);
+	public User findUserByEmail(String email);
+	public User findEmail(String email);
+	public User findByToken(String token);
 }

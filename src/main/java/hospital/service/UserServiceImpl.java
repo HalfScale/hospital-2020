@@ -18,8 +18,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public List<User> getUsers() {
-//		return userDao.getUsers();
-		return null;
+		return userDao.getUsers();
 	}
 
 	@Override
@@ -32,20 +31,31 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User getUser(int id) {
-//		return userDao.getUser(id);
-		return null;
+		return userDao.getUser(id);
 	}
 
 	@Override
 	@Transactional
 	public void deleteUser(int id) {
-//		userDao.deleteUser(id);
+		userDao.deleteUser(id);
 	}
 
 	@Override
 	@Transactional
 	public User getUser(String email) {
-		return userDao.findUserByUsername(email);
+		return userDao.findUserByEmail(email);
+	}
+
+	@Override
+	@Transactional
+	public User findEmail(String email) {
+		return userDao.findEmail(email);
+	}
+
+	@Override
+	@Transactional
+	public User findByToken(String token) {
+		return userDao.findByToken(token);
 	}
 	
 	

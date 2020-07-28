@@ -15,8 +15,8 @@ import hospital.entity.HospitalRoom;
 import hospital.entity.User;
 
 @Repository
-public class DoctorCodeDAOImpl implements DoctorCodeDAO{
-	
+public class DoctorCodeDAOImpl implements DoctorCodeDAO {
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -29,30 +29,36 @@ public class DoctorCodeDAOImpl implements DoctorCodeDAO{
 	@Override
 	public void saveDoctorCode(DoctorCode doctorCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public DoctorCode getDoctorCode(Integer code) {
-		Session session = sessionFactory.getCurrentSession(); 
-		
-		Query<DoctorCode> query = session.createQuery("from DoctorCode where doctorCode=:doctorCode and deleted = 0", DoctorCode.class);
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<DoctorCode> query = session.createQuery("from DoctorCode where doctorCode=:doctorCode and deleted = 0",
+				DoctorCode.class);
 		query.setParameter("doctorCode", code);
-		
+
 		DoctorCode doctorCode = null;
-		
+
 		try {
 			doctorCode = query.getSingleResult();
-		} catch (NoResultException e) {}
+		} catch (NoResultException e) {
+		}
 
-		
 		return doctorCode;
 	}
 
 	@Override
 	public void deleteDoctorCode(int id) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public DoctorCode getDoctorCodeByCode(int code) {
+		return null;
 	}
 
 }

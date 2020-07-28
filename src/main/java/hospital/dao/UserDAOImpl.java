@@ -31,17 +31,15 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void saveUser(User user) {
-//		Session currentSession = sessionFactory.getCurrentSession();
-//		System.out.println("User " + user.getId());
-//		currentSession.saveOrUpdate(user);
+		Session currentSession = sessionFactory.getCurrentSession();
+		System.out.println("User " + user.getId());
+		currentSession.saveOrUpdate(user);
 	}
 
 	@Override
 	public User getUser(int id) {
-//		Session currentSession = sessionFactory.getCurrentSession();
-//		
-//		User user = currentSession.get(User.class, id);
-		return null;
+		Session currentSession = sessionFactory.getCurrentSession();
+		return currentSession.get(User.class, id);
 	}
 
 	@Override
@@ -55,7 +53,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User findUserByUsername(String email) {
+	public User findUserByEmail(String email) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		String hql = "select u from User u left join u.userDetail detail where u.email=:email and "
@@ -73,4 +71,37 @@ public class UserDAOImpl implements UserDAO {
 		return user != null ? user : null;
 	}
 
+	@Override
+	public User findEmail(String email) {
+		System.out.println("find email: " + email + "");
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query<User> query = session.createQuery("from User where email like :email and deleted = 0", User.class);
+		query.setParameter("email", "%" + email + "%");
+
+		User user = null;
+		try {
+			user = query.getSingleResult();
+		} catch (NoResultException e) {}
+
+		return user != null ? user : null;
+	}
+
+	@Override
+	public User findByToken(String token) {
+		System.out.println("find token: " + token + "");
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query<User> query = session.createQuery("from User where registrationToken like :token", User.class);
+		query.setParameter("token", "%" + token + "%");
+
+		User user = null;
+		try {
+			user = query.getSingleResult();
+		} catch (NoResultException e) {e.printStackTrace();}
+
+		return user != null ? user : null;
+	}
+
+	
 }

@@ -181,11 +181,11 @@ public class UserDetail {
 		this.doctorDescription = doctorDescription;
 	}
 
-	public int getNoOfYearsExperience() {
+	public Integer getNoOfYearsExperience() {
 		return noOfYearsExperience;
 	}
 
-	public void setNoOfYearsExperience(int noOfYearsExperience) {
+	public void setNoOfYearsExperience(Integer noOfYearsExperience) {
 		this.noOfYearsExperience = noOfYearsExperience;
 	}
 

@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -39,7 +41,7 @@ public class User {
 	private int userType;
 	
 	@Column(name="registration_token")
-	private int registrationToken;
+	private String registrationToken;
 	
 	@Column(name="datetime_password_reset")
 	private LocalDateTime dateTimePasswordReset;
@@ -71,7 +73,8 @@ public class User {
 	@OneToOne(mappedBy="user", cascade=CascadeType.ALL)
 	private UserDetail userDetail;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Authorities> authorities = new HashSet<>();
 
 	public int getId() {
@@ -130,11 +133,11 @@ public class User {
 		this.authorities = authorities;
 	}
 
-	public int getRegistrationToken() {
+	public String getRegistrationToken() {
 		return registrationToken;
 	}
 
-	public void setRegistrationToken(int registrationToken) {
+	public void setRegistrationToken(String registrationToken) {
 		this.registrationToken = registrationToken;
 	}
 
