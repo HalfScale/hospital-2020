@@ -83,35 +83,39 @@ $(function() {
 		e.preventDefault();
 		e.stopPropagation();
 		
-		let validateFirst = null;
 		let emailExist = false;
 		let isLoading = false;
 		let isValid = false;
-
 		let loading = sysLoad(); 
 		
-		
+		let validationElem = {
+			'reg-first-name': false,
+			'reg-last-name': false,
+			'reg-email': false,
+			'reg-mobile': false,
+			'reg-password': false,
+			'reg-password-confirm': false,
+			'reg-doctor-code': false,
+			'reg-terms-agreement': false
+		}
+
 		
 		if (firstNameElem.val() === '') {
 			setStatus(firstNameStatus, 'invalid-feedback').text('First name is required!');
 			removeFieldStatus(firstNameElem).addClass('is-invalid');
-			isValid = false;
-			validateFirst = validateFirst == null ? 'reg-first-name' : validateFirst;
 		}else {
 			setStatus(firstNameStatus, 'valid-feedback').text('Looks good!');
 			removeFieldStatus(firstNameElem).addClass('is-valid');
-			isValid = true;
+			validationElem['reg-first-name'] = true;
 		}
 		
 		if (lastNameElem.val() === '') {
 			setStatus(lastNameStatus, 'invalid-feedback').text('Last name is required!');
 			removeFieldStatus(lastNameElem).addClass('is-invalid');
-			isValid = false;
-			validateFirst = validateFirst == null ? 'reg-last-name' : validateFirst;
 		}else {
 			setStatus(lastNameStatus, 'valid-feedback').text('Looks good!');
 			removeFieldStatus(lastNameElem).addClass('is-valid');
-			isValid = true;
+			validationElem['reg-last-name'] = true;
 		}
 		
 		let isEmailValid = false;
@@ -121,14 +125,10 @@ $(function() {
 			setStatus(emailStatus, 'invalid-feedback').text('Email is required!');
 			removeFieldStatus(emailElem).addClass('is-invalid');
 			isEmailValid = false;
-			isValid = false;
-			validateFirst = validateFirst == null ? 'reg-email' : validateFirst;
 		}else if (!emailElem[0].checkValidity()) {
 			setStatus(emailStatus, 'invalid-feedback').text('Invalid email format!');
 			removeFieldStatus(emailElem).addClass('is-invalid');
 			isEmailValid = false;
-			isValid = false;
-			validateFirst = validateFirst == null ? 'reg-email' : validateFirst;
 		}else {
 			isEmailValid = true;
 		}
@@ -136,10 +136,7 @@ $(function() {
 		if (mobileElem.val() === '') {
 			setStatus(mobileStatus, 'invalid-feedback').text('Mobile No. is required!');
 			removeFieldStatus(mobileElem).addClass('is-invalid');
-			isValid = false;
-			validateFirst = validateFirst == null ? 'reg-mobile' : validateFirst;
 		}else if (!mobileElem[0].checkValidity()) {
-			validateFirst = validateFirst == null ? 'reg-mobile' : validateFirst;
 			
 			if (!isMobileValid(mobileElem.val())) {
 				setStatus(mobileStatus, 'invalid-feedback').text('Invalid Mobile No.');
@@ -150,44 +147,33 @@ $(function() {
 				removeFieldStatus(mobileElem).addClass('is-invalid');
 			}
 			
-			isValid = false;
 		}else if (!isMobileValid(mobileElem.val())) {
 			setStatus(mobileStatus, 'invalid-feedback').text('Invalid Mobile No.!');
 			removeFieldStatus(mobileElem).addClass('is-invalid');
-			validateFirst = validateFirst == null ? 'reg-mobile' : validateFirst;
-			isValid = false;
 		}else {
 			setStatus(mobileStatus, 'valid-feedback').text('Looks good!');
 			removeFieldStatus(mobileElem).addClass('is-valid');
-			isValid = true;
+			validationElem['reg-mobile'] = true;
 		}
 		
 		if (passElem.val() === '') {
 			setStatus(passStatus, 'invalid-feedback').text('Password is required!');
 			removeFieldStatus(passElem).addClass('is-invalid');
-			isValid = false;
-			validateFirst = validateFirst == null ? 'reg-password' : validateFirst;
 		}else if (!passElem[0].checkValidity()) {
 			setStatus(passStatus, 'invalid-feedback').text('Password should be 6-15 characters!');
 			removeFieldStatus(passElem).addClass('is-invalid');
-			isValid = false;
-			validateFirst = validateFirst == null ? 'reg-password' : validateFirst;
 		}else{
 			setStatus(passStatus, 'valid-feedback').text('looks good!');
 			removeFieldStatus(passElem).addClass('is-valid');
-			isValid = true;
+			validationElem['reg-password'] = true;
 		}
 		
 		if (passConfirmElem.val() === '') {
 			setStatus(passConfirmStatus, 'invalid-feedback').text('Confirm password is required!');
 			removeFieldStatus(passConfirmElem).addClass('is-invalid');
-			validateFirst = validateFirst == null ? 'reg-password-confirm' : validateFirst;
-			isValid = false;
 		}else if (!passConfirmElem[0].checkValidity()) {
 			setStatus(passConfirmStatus, 'invalid-feedback').text('Confirm password should be 6-15 characters!');
 			removeFieldStatus(passConfirmElem).addClass('is-invalid');
-			validateFirst = validateFirst == null ? 'reg-password-confirm' : validateFirst;
-			isValid = false;
 		}else if (passElem.val() !== passConfirmElem.val()) {
 			setStatus(passConfirmStatus, 'invalid-feedback').text('Do not match!');
 			removeFieldStatus(passConfirmElem).addClass('is-invalid');
@@ -196,12 +182,10 @@ $(function() {
 				setStatus(passStatus, 'invalid-feedback').text('Do not match!');
 				removeFieldStatus(passElem).addClass('is-invalid');
 			}
-			validateFirst = validateFirst == null ? 'reg-password-confirm' : validateFirst;
-			isValid = false;
 		}else {
 			setStatus(passConfirmStatus, 'valid-feedback').text('Looks good!');
 			removeFieldStatus(passConfirmElem).addClass('is-valid');
-			isValid = true;
+			validationElem['reg-password-confirm'] = true;
 		}
 		
 		let isDoctorCodeValid = false;
@@ -212,27 +196,23 @@ $(function() {
 				setStatus(doctorStatus, 'invalid-feedback').text('Invalid hospital code!');
 				removeFieldStatus(doctorElem).addClass('is-invalid');
 				isDoctorCodeValid = false;
-				isValid = false;
-				validateFirst = validateFirst == null ? 'reg-doctor-code' : validateFirst;
 			}else {
 				isDoctorCodeValid = true;
 			}
 		}else {
 			setStatus(doctorStatus, '').text('');
 			removeFieldStatus(doctorElem);
-			isValid = true;
 			isDoctorAjaxValid = true;
+			validationElem['reg-doctor-code'] = true;
 		}
 		
 		if (!termsElem[0].checkValidity()) {
 			setStatus(termsStatus, 'invalid-feedback').text('Please check Terms and Agreement to Register!');
 			removeFieldStatus(termsElem).addClass('is-invalid');
-			isValid = false;
-			validateFirst = validateFirst == null ? 'reg-terms-agreement' : validateFirst;
 		}else {
 			setStatus(termsStatus, 'valid-feedback').text('');
 			removeFieldStatus(termsElem).addClass('is-valid');
-			isValid = true;
+			validationElem['reg-terms-agreement'] = true;
 		}
 		
 		let doctorElemVal = isDoctorCodeValid ? doctorElem.val() : '0';
@@ -250,11 +230,11 @@ $(function() {
 					setStatus(doctorStatus, 'valid-feedback').text('Looks good!');
 					removeFieldStatus(doctorElem).addClass('is-valid');
 					isDoctorAjaxValid = true;
+					validationElem['reg-doctor-code'] = true;
 				}else {
 					setStatus(doctorStatus, 'invalid-feedback').text('Invalid hospital code!');
 					removeFieldStatus(doctorElem).addClass('is-invalid');
 					isDoctorAjaxValid = false;
-					validateFirst = validateFirst == null ? 'reg-doctor-code' : validateFirst;
 				}
 				
 			}
@@ -265,6 +245,7 @@ $(function() {
 					setStatus(emailStatus, 'valid-feedback').text('Email can be used.');
 					removeFieldStatus(emailElem).addClass('is-valid');
 					isEmailAjaxValid = true;
+					validationElem['reg-email'] = true;
 				}else {
 					setStatus(emailStatus, 'invalid-feedback').text('Email is already used!');
 					removeFieldStatus(emailElem).addClass('is-invalid');
@@ -275,6 +256,18 @@ $(function() {
 			
 			loading.remove();
 			
+			let validateFirst = null;
+			let isValid = Object.keys(validationElem).every(function(key) {
+				if (validationElem[key]) {
+					return true;
+				}else {
+					validateFirst = key;
+				}
+			});
+			
+			console.log('isValid', isValid);
+			console.log('isDoctorAjaxValid', isDoctorAjaxValid);
+			console.log('isEmailAjaxValid', isEmailAjaxValid);
 			if(isValid && isDoctorAjaxValid && isEmailAjaxValid) {
 				$('#registrationForm').find('.dummy-submit').click();
 			}else {
