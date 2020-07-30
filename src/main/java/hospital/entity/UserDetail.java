@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author MacMuffin
  */
 @Entity
-@Table(name="user_detail")
+@Table(name="user_details")
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class UserDetail {
 	
@@ -35,7 +35,7 @@ public class UserDetail {
 	private int id;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="username")
 	@JsonIgnore
 	private User user;
 	

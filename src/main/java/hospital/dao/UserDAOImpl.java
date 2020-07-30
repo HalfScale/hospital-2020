@@ -29,9 +29,9 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void saveUser(User user) {
-		Session currentSession = sessionFactory.getCurrentSession();
-		System.out.println("User " + user.getId());
-		currentSession.saveOrUpdate(user);
+//		Session currentSession = sessionFactory.getCurrentSession();
+//		System.out.println("User " + user.getId());
+//		currentSession.saveOrUpdate(user);
 	}
 
 	@Override

@@ -18,9 +18,9 @@ public class UserRestController {
 	
 	@PostMapping("/users")
 	public User addUser(@RequestBody User user) {
-		user.setId(0);
-		user.getUserDetail().setUser(user);
-		userService.saveUser(user);
+//		user.setId(0);
+//		user.getUserDetail().setUser(user);
+//		userService.saveUser(user);
 		return user;
 	}
 }
