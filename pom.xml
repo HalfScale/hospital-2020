@@ -84,6 +84,19 @@
 	    	<artifactId>jackson-datatype-jsr310</artifactId>
 	    	<version>2.9.7</version>
 		</dependency>
+		
+		<!-- Mail configuration -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
 
 		<!-- Hibernate -->
 		<dependency>

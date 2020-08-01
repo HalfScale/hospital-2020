@@ -20,6 +20,13 @@ public class Authorities {
 	@ManyToOne
 	@JoinColumn(name = "users_id")
 	private User user;
+	
+	public Authorities() {}
+	
+	public Authorities(String authority, User user) {
+		this.authority = authority;
+		this.user = user;
+	}
 
 	public String getAuthority() {
 		return authority;
