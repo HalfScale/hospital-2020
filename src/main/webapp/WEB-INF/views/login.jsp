@@ -22,6 +22,18 @@
 		<c:if test="${not empty param['error']}">
 			<div class="alert alert-danger text-center" role="alert">
 			  <b>Invalid email and password!</b>
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+		</c:if>
+		
+		<c:if test="${not empty message}">
+			<div class="alert alert-success text-center" role="alert">
+			  <b>${message}</b>
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
 			</div>
 		</c:if>
 		
