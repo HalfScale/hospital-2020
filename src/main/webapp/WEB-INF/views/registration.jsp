@@ -18,27 +18,36 @@
 			<h1 class="text-center">Hospital Name</h1>
 			<h5 class="text-center">Registration</h5>
 
-			<form id="registrationForm">
+			<form id="registrationForm" novalidate>
 				<div class="form-group">
 					<label for="reg-first-name">First Name</label>
-					<input id="reg-first-name" class="form-control" name="firstName" required/>
+					<input type="text" id="reg-first-name" class="form-control" name="firstName" required/>
+					<div class="first-name-status">
+        		
+      				</div>
 				</div>
 				
 				<div class="form-group">
 					<label for="reg-last-name">Last Name</label>
-					<input id="reg-last-name" class="form-control" name="lastName" required/>
+					<input type="text" id="reg-last-name" class="form-control" name="lastName" required/>
+					<div class="last-name-status">
+        		
+      				</div>
 				</div>
 
 				<div class="form-group">
 					<label for="reg-email">Email Address</label>
-					<input id="reg-email" class="form-control" name="email" required/>
+					<input type="email" id="reg-email" class="form-control" name="email" required/>
+					<div class="email-status">
+        		
+      				</div>
 				</div>
 
 				<div class="form-group">
 					<label>Gender</label>
 					<div class="custom-control custom-radio">
 						<input type="radio" id="reg-gender-male"
-							class="custom-control-input" name="gender" value="1" required/>
+							class="custom-control-input" name="gender" value="1" required checked/>
 						<label class="custom-control-label" for="reg-gender-male">Male</label>
 					</div>
 					<div class="custom-control custom-radio">
@@ -50,18 +59,36 @@
 
 				<div class="form-group">
 					<label for="reg-mobile">Mobile Number</label>
-					<input id="reg-mobile" class="form-control" name="mobileNo" required/>
+					<input type="text" id="reg-mobile" class="form-control" name="mobileNo" minlength="11" maxlength="13" required/>
+					<div class="mobile-status">
+        		
+      				</div>
 				</div>
 
 				<div class="form-group">
 					<label for="reg-password">Password</label>
 					<input type="password" id="reg-password" class="form-control"
-						name="password" required/>
+						minlength="6" maxlength="15" name="password" required/>
+					<div class="pass-status">
+        		
+      				</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="reg-password-confirm">Confirm Password</label>
+					<input type="password" id="reg-password-confirm" class="form-control"
+						name="passwordConfirm" minlength="6" maxlength="15" required/>
+					<div class="confirm-pass-status">
+        		
+      				</div>
 				</div>
 
 				<div class="form-group">
 					<label for="reg-doctor-code">Doctor Code</label>
-					<input id="reg-doctor-code" class="form-control" name="doctorCode" />
+					<input type="text" id="reg-doctor-code" class="form-control" name="doctorCodeId" />
+					<div class="doctor-code-status">
+        		
+      				</div>
 				</div>
 
 				<div class="form-group">
@@ -75,11 +102,15 @@
 						<input id="reg-agree" type="checkbox" class="custom-control-input"
 							required>
 						<label class="custom-control-label" for="reg-agree">I agree to terms and agreement.</label>
+						<div class="reg-agree-status">
+        		
+      					</div>
 					</div>
 				</div>
 
-				<button type="submit" class="btn btn-primary">Register</button>
-				<button type="button" class="return-bttn btn btn-primary">Return</button>
+				<button type="submit" class="submit-button btn btn-primary">Register</button>
+				<input type="submit" class="dummy-submit" />
+				<a href="${pageContext.request.contextPath}/"><button type="button" class="return-bttn btn btn-primary">Return</button></a>
 			</form>
 		</div>
 	</jsp:body>

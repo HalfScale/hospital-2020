@@ -8,24 +8,41 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import hospital.dao.UserDetailsDao;
+import hospital.dao.DoctorCodeDAO;
+import hospital.dao.UserDAO;
+import hospital.entity.DoctorCode;
 import hospital.entity.User;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImp implements UserDetailsService {
 	
 	@Autowired
-	private UserDetailsDao userDetailsDao;
+	private UserDAO userDao;
+	
+	@Autowired
+	private DoctorCodeDAO doctorCodeDao;
 
 	@Transactional(readOnly = true)
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
-		User user = userDetailsDao.findUserByUsername(username);
+		User user = userDao.findUserByEmail(email);
+		System.out.println("User value " + email);
 	    UserBuilder builder = null;
 	    
 	    if (user != null) {
-	    	builder = org.springframework.security.core.userdetails.User.withUsername(username);
+	    	
+	    	//Check if user is doctor
+	    	Integer doctorId = user.getUserDetail().getDoctorCodeId();
+	    	DoctorCode doctorCode = doctorCodeDao.getDoctorCode(doctorId);
+	    	
+	    	if(doctorId != null && doctorCode == null) {
+	    		//Throw error if existing doctor code does not exist or deleted.
+	    		throw new UsernameNotFoundException("User not found.");
+	    	}
+	    	
+	    	
+	    	builder = org.springframework.security.core.userdetails.User.withUsername(email);
 	        builder.disabled(!user.isEnabled());
 	        builder.password(user.getPassword());
 	        String[] authorities = user.getAuthorities()
