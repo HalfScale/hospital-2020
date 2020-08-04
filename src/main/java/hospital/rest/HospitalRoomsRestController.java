@@ -60,7 +60,7 @@ public class HospitalRoomsRestController {
 		hospitalRoomService.deleteHospitalRoom(id);
 		MyResponseObject response = new MyResponseObject();
 		response.setCode("202");
-		response.setResponse("Successfully deleted Hospital Room id = " + id);
+		response.setResponse("Successfully deleted Hospital Room!");
 		
 		return response;
 	}

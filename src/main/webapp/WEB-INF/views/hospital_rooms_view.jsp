@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
-<t:system_page title="Registration">
+<t:system_page title="Hopsital Room">
 
 	<jsp:attribute name="head_imports">
 		<link rel="stylesheet" type="text/css"
@@ -43,7 +43,7 @@
 					</tr>
 	            </tbody>
         	</table>
-        	<a href="../../hospital_rooms"><button class="btn btn-primary m-1">Back</button></a>
+        	<button class="backBtn btn btn-primary m-1">Back</button>
 		</div>
 	</jsp:body>
 </t:system_page>

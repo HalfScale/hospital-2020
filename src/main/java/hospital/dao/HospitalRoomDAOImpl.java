@@ -20,7 +20,7 @@ public class HospitalRoomDAOImpl implements HospitalRoomDAO {
 	public List<HospitalRoom> getHospitalRooms() {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<HospitalRoom> theQuery = currentSession.createQuery("from HospitalRoom", HospitalRoom.class);
+		Query<HospitalRoom> theQuery = currentSession.createQuery("from HospitalRoom hr where hr.deleted = 0", HospitalRoom.class);
 		
 		return theQuery.getResultList();
 	}
@@ -45,7 +45,7 @@ public class HospitalRoomDAOImpl implements HospitalRoomDAO {
 	public void deleteHospitalRoom(int id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query theQuery = currentSession.createQuery("delete from HospitalRoom where id=:id");
+		Query theQuery = currentSession.createQuery("update HospitalRoom hr set hr.deleted = 1 where hr.id=:id");
 		theQuery.setParameter("id", id);
 		
 		theQuery.executeUpdate();

@@ -1,7 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<t:system_page title="Registration">
+<t:system_page title="Hospital Rooms">
 
 	<jsp:attribute name="head_imports">
 		<link rel="stylesheet" type="text/css"
@@ -14,8 +15,15 @@
 	</jsp:attribute>
 
 	<jsp:body>
+		<c:if test="${not empty message}">
+			<div id="flash-message" class="mx-auto text-center w-50 alert alert-${status} alert-dismissible fade show" role="alert">
+			  ${message}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+		</c:if>
 		<a href="hospital_rooms/add"><button id="addHospitalRoom" type="button" class="btn btn-primary m-1">Add Room</button></a>
-		
 		<table id="hospitalRoomTable" class="table table-bordered table-hover w-100">
             <thead>
                 <tr>

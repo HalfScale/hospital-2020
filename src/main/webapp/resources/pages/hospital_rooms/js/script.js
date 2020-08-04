@@ -81,36 +81,38 @@ $(function () {
 			title: 'Delete',
 			text: 'Do you want to delete this room?',
 			ok: function(modal) {
-				
-				$.ajax({
-					type: "DELETE",
-					url: 'api/hospital_rooms/' + roomData.id,
-					contentType: "application/json; charset=utf-8",
-					dataType: "json",
-					beforeSend: function () {
-						modal.modal('hide');
-						loading.appendTo('body');
-					},
-					success: function (data) {
-						console.log('success', data);
-						hospitalRoomTable.ajax.reload();
-						loading.remove();
-						
-						sysAlert({
-							text: data.response,
-							type: 'info'
-						});
-						
-					}, 
-					failure: function (errMsg) {
-						console.log(errMsg)
-						loading.remove();
-						sysAlert({
-							text: errMsg,
-							type: 'danger'
-						});
-					}
-				});
+				window.location.href = 'hospital_rooms/delete/' + roomData.id;
+//				$.ajax({
+//					type: "DELETE",
+//					url: 'api/hospital_rooms/' + roomData.id,
+//					contentType: "application/json; charset=utf-8",
+//					dataType: "json",
+//					beforeSend: function () {
+//						$('#flash-message').remove(); // Remove if there is any previous flash message.
+//						modal.modal('hide');
+//						loading.appendTo('body');
+//					},
+//					success: function (data) {
+//						console.log('success', data);
+//						hospitalRoomTable.ajax.reload();
+//						loading.remove();
+//						
+//						sysAlert({
+//							text: data.response,
+//							type: 'info',
+//							delay: 2500
+//						});
+//						
+//					}, 
+//					error: function () {
+//						loading.remove();
+//						sysAlert({
+//							text: 'Unknown error!',
+//							type: 'danger',
+//							delay: 2500
+//						});
+//					}
+//				});
 			}
 		});
 	});

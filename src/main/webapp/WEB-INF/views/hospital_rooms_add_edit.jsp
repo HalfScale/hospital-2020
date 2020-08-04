@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
-<t:system_page title="Registration">
+<t:system_page title="Hospital Rooms">
 
 	<jsp:attribute name="head_imports">
 		<link rel="stylesheet" type="text/css"
@@ -9,7 +9,7 @@
 	</jsp:attribute>
 
 	<jsp:attribute name="scripts">
-		<script
+		  <script
 			src="${pageContext.request.contextPath}/resources/pages/hospital_rooms/js/hospital-rooms.add.js"></script>
 	</jsp:attribute>
 
@@ -18,7 +18,8 @@
 			<h1 class="text-center">Hospital Name</h1>
 			<h5 class="text-center">Register Room</h5>
 
-			<form id="hospitalRoomForm">
+			<form id="hospitalRoomForm" action="../hospital_rooms" method="POST">
+				
 				<div class="form-group">
 					<label for="reg-first-name">Room image</label>
 				</div>
@@ -41,11 +42,6 @@
 	      				<option value="3">Not available</option>
 					</select>
 				</div>
-				
-				<!--  <div class="form-group">
-					<label for="add-room-status">Room Status</label>
-					<input id="add-room-status" class="form-control" name="status" required/>
-				</div>-->
 				
 				<div class="form-group">
 					<label for="add-room-description">Room Description</label>

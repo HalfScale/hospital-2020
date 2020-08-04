@@ -61,14 +61,12 @@ public class RoomReservation {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="reserved_date")
 	private LocalDate reservedDate;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	@JsonSerialize(using = LocalTimeSerializer.class)
 	@JsonDeserialize(using = LocalTimeDeserializer.class)
-//	@DateTimeFormat(pattern = "HH:mm:ss")
 	@Column(name="reserved_time")
 	private LocalTime reservedTime;
 	

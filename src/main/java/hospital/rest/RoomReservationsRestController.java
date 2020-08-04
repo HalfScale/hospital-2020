@@ -58,7 +58,7 @@ public class RoomReservationsRestController {
 	public MyResponseObject deleteRoomReservation(@PathVariable int id) {
 		RoomReservation roomReservation = roomReservationService.getRoomReservation(id);
 		roomReservation.setDeleted(true);
-		roomReservation.setDeletedDate(LocalDateTime.now());
+//		roomReservation.setDeletedDate(LocalDateTime.now());
 		roomReservationService.saveRoomReservation(roomReservation);
 		
 		MyResponseObject response = new MyResponseObject();

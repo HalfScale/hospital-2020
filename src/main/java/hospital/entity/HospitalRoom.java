@@ -2,19 +2,18 @@
 
 package hospital.entity;
 
-import javax.persistence.CascadeType;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
@@ -38,6 +37,9 @@ public class HospitalRoom {
 	@Column(name="room_name")
 	private String roomName;
 	
+	@Column(name="room_image")
+	private String roomImage;
+	
 	@Column(name="description")
 	private String description;
 	
@@ -46,6 +48,21 @@ public class HospitalRoom {
 	
 	@Column(name="created_by")
 	private String createdBy;
+	
+	@Column(name="updated_by")
+	private String updatedBy;
+	
+	@Column(name="created")
+	private LocalDateTime created;
+	
+	@Column(name="modified")
+	private LocalDateTime modified;
+	
+	@Column(name="deleted")
+	private boolean deleted;
+	
+	@Column(name="deleted_date")
+	private LocalDateTime deletedDate;
 	
 	@OneToOne(mappedBy="hospitalRoom")
 	private RoomReservation roomReservaition;
@@ -104,6 +121,54 @@ public class HospitalRoom {
 
 	public void setRoomReservaition(RoomReservation roomReservaition) {
 		this.roomReservaition = roomReservaition;
+	}
+
+	public String getRoomImage() {
+		return roomImage;
+	}
+
+	public void setRoomImage(String roomImage) {
+		this.roomImage = roomImage;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
+
+	public LocalDateTime getModified() {
+		return modified;
+	}
+
+	public void setModified(LocalDateTime modified) {
+		this.modified = modified;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
 	}
 
 	
