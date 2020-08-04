@@ -52,7 +52,6 @@
 		  </div>
 		 
 		 <button type="submit" class="submit-button btn btn-primary">Submit</button>
-		 <input type="submit" class="dummy-submit" />
 		</form>
 	</div>
 		

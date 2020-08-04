@@ -57,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
 		Session session = sessionFactory.getCurrentSession();
 		
 		String hql = "select u from User u left join u.userDetail detail where u.email=:email and "
-				+ "detail is not null and u.isConfirmed = 1 and u.enabled = 1 and u.deleted = 0 and "
+				+ "detail is not null and detail.deleted = 0 and u.isConfirmed = 1 and u.enabled = 1 and u.deleted = 0 and "
 				+ "u.userType in(1, 2, 3)";
 
 		Query<User> query = session.createQuery(hql, User.class);
