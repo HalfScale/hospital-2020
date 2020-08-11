@@ -18,10 +18,10 @@
 			<h1 class="text-center">Hospital Name</h1>
 			<h5 class="text-center">Registration</h5>
 
-			<form id="registrationForm" novalidate>
+			<form id="registrationForm" action="registration" method="POST" novalidate>
 				<div class="form-group">
 					<label for="reg-first-name">First Name</label>
-					<input type="text" id="reg-first-name" class="form-control" name="firstName" required/>
+					<input type="text" id="reg-first-name" class="form-control" name="firstName" minlength="3" maxlength="50" required/>
 					<div class="first-name-status">
         		
       				</div>
@@ -29,7 +29,7 @@
 				
 				<div class="form-group">
 					<label for="reg-last-name">Last Name</label>
-					<input type="text" id="reg-last-name" class="form-control" name="lastName" required/>
+					<input type="text" id="reg-last-name" class="form-control" name="lastName" minlength="3" maxlength="50" required/>
 					<div class="last-name-status">
         		
       				</div>
@@ -37,7 +37,7 @@
 
 				<div class="form-group">
 					<label for="reg-email">Email Address</label>
-					<input type="email" id="reg-email" class="form-control" name="email" required/>
+					<input type="email" id="reg-email" class="form-control" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/>
 					<div class="email-status">
         		
       				</div>
