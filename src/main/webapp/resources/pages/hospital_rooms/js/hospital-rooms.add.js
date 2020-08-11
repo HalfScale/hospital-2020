@@ -10,72 +10,15 @@ $(function() {
 	let status = url.searchParams.get('status');
 	let description = url.searchParams.get('description');
 	
+	const form = $('#hospitalRoomForm');
+	const hospitalDisplay = $('#hospitalImage');
+	
 	if (haveRoomParams()) {
 		$('#add-room-code').val(roomCode);
 		$('#add-room-name').val(roomName);
 		$('#add-room-status').val(status);
 		$('#add-room-description').val(description);
 	}
-	
-	const form = $('#hospitalRoomForm').on('', function(e) {
-		e.preventDefault();
-		let form = $(this);
-		let fd = form.serializeForm();
-		let type = selected ? 'PUT' : 'POST';
-		let url = selected ? '../../api/hospital_rooms' : '../api/hospital_rooms';
-		
-		fd['createdBy'] = 'Marwin Buenaventura'; // Should fix this server side
-		
-		if(selected) {
-			fd = $.extend(fd, {
-				id: selected.id,
-				createdBy: selected.createdBy
-			});
-		}
-		
-		console.log('modified before submit', fd)
-		let loading = sysLoad(); 
-		
-		
-		$.ajax({
-			type: type,
-			url: url,
-			data: JSON.stringify(fd),
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			beforeSend: function () {
-				loading.appendTo('body');
-			},
-			success: function (data) {
-				console.log('success', data);
-				
-				loading.remove();
-				
-				form.trigger('reset');
-				if (selected) {
-					form.fillForm({
-						source: data.data
-					});
-					selected = data.data;
-				}else {
-					window.location.href='edit/' + data.data.id;
-				}
-				
-				sysAlert({
-					text: data.response,
-					type: 'info'
-				});
-				
-			}, 
-			error: function (errMsg) {
-				loading.remove();
-				sysAlert({
-					text: 'Unknown error!',
-					type: 'danger'
-				});
-			}
-		});
-	});
 	
 	//This code is for when the path is on editing. '/edit/{id}'
 	let path = window.location.pathname;
@@ -96,8 +39,21 @@ $(function() {
 				
 				form.fillForm({
 					source: data,
+					custom: function(form, data) {
+//						hospitalDisplay.attr('title', data.roomImage);
+//						$(this).next('.custom-file-label').text(data.roomImage);
+//						
+//						hospitalDisplay.attr('src', $g.file_path + '/' + data.roomImage).load(function() {
+//							this.width;
+//						});
+//						reader.onload = function (e) {
+//						};
+						
+//						reader.readAsDataURL(selectedFile);
+					}
 				});
 				
+				// Get the params instead if there are room params.
 				if(haveRoomParams()) {
 					form.fillForm({
 						source: {
@@ -105,7 +61,7 @@ $(function() {
 							roomName: roomName,
 							description: description,
 							status: status
-						},
+						}
 					});
 				}
 			}
@@ -137,6 +93,31 @@ $(function() {
 			
 			url += 'edit=true';
 			window.location.href= url;
+		}
+	});
+	
+	$('#hospitalImageInput').on('change', function(e) {
+		const selectedFile = e.currentTarget.files[0];
+		const reader = new FileReader();
+		
+		var fileSize = ((selectedFile.size / 1024) / 1024).toFixed(4);
+		console.log('fileSize', fileSize);
+		
+		if (fileSize > 2) {
+			sysConfirm({
+				title: 'Invalid file size',
+				text: 'File size is too large!',
+				hideConfirmBtn: true
+			});
+		}else {
+			hospitalDisplay.attr('title', selectedFile.name);
+			$(this).next('.custom-file-label').text(selectedFile.name);
+			
+			reader.onload = function (e) {
+				hospitalDisplay.attr('src', e.target.result);
+			};
+			
+			reader.readAsDataURL(selectedFile);
 		}
 	});
 	

@@ -9,10 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import hospital.handler.CustomAuthenticationFailureHandler;
+import hospital.filter.MyWebFilter;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -33,7 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+//		.addFilterAfter(new MyWebFilter(), BasicAuthenticationFilter.class)
+		http
+		.authorizeRequests()
+		.antMatchers("/hospital_rooms/**").hasAnyRole("ADMIN", "DOCTOR")
 		.antMatchers("/").permitAll()
 		.and()
 		.formLogin()
@@ -50,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.logoutSuccessUrl("/")
 		.deleteCookies("JSESSIONID")
 		.permitAll()
+		.and()
+		.exceptionHandling().accessDeniedPage("/access_denied")
 		.and()
 		.csrf().disable();
 	}

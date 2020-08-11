@@ -1,5 +1,6 @@
 package hospital.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,8 @@ public class HospitalRoomServiceImpl implements HospitalRoomService {
 	@Override
 	@Transactional
 	public void deleteHospitalRoom(int id) {
-		hospitalRoomDAO.deleteHospitalRoom(id);
+		HospitalRoom hospitalRoom = hospitalRoomDAO.getHospitalRoom(id);
+		hospitalRoomDAO.saveHospitalRoom(hospitalRoom);
 	}
 
 }

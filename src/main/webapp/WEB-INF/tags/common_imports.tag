@@ -15,3 +15,9 @@
 <script src="${pageContext.request.contextPath}/resources/common/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/common/datatables/js/datatables.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/common/js/util.js"></script>
+
+<script>
+(function ($g, $) {
+	$g.file_path = '${file_path}';
+}(window.$g = window.$g || {}), jQuery);
+</script>

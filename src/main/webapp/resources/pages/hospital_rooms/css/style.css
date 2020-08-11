@@ -1,3 +1,8 @@
 #detailsTable col:nth-child(1) {
 	width: 10em;
 }
+
+#hospitalImage{
+	width: 400px;
+	height: 300px;
+}

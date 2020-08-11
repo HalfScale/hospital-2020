@@ -1,5 +1,55 @@
 $(function () {
 	const hospitalRoomTable = $('#hospitalRoomTable').DataTable({
+		initComplete: function() {
+			var input = $('.dataTables_filter input[type=search]').unbind(),
+            self = this.api(),
+            $searchButton = $('<button>').addClass('mr-3 ml-3 btn btn-primary')
+                       .text('Search')
+                       .click(function() {
+                		  if(selectFilter.val().trim() !== '') {
+                			  filterColumn(4, '^' + selectFilter.val());
+                		  }else {
+                			  filterColumn(4,'');
+                		  }
+                		  if(nameInputFilter.val().trim() !== '') {
+                			  filterColumn(1, nameInputFilter.val());
+                		  }else {
+                			  filterColumn(1,'');
+                		  }
+                		  if(codeInputFilter.val().trim() !== '') {
+                			  filterColumn(0, codeInputFilter.val());
+                		  }else {
+                			  filterColumn(0,'');
+                		  }
+                       }),
+            $clearButton = $('<button>').addClass('btn btn-primary')
+                       .text('Clear')
+                       .click(function() {
+                    	   selectFilter.val('');
+                    	   nameInputFilter.val('');
+                    	   codeInputFilter.val('');
+                       })
+           input.parent().remove();
+           const dataTablesFilter = $('.dataTables_filter').append($searchButton, $clearButton);
+			
+		   const statusFilter = $('<label>').text('Status:');
+		   const selectFilter = $('<select>').addClass('statusFilter form-control form-control-sm').appendTo(statusFilter);
+		   ['', 'Available', 'Unavailable', 'Under Reservation'].forEach((status) => $('<option>').text(status).val(status).appendTo(selectFilter));
+		   statusFilter.prependTo(dataTablesFilter);
+		   
+		   const nameFilter = $('<label>').addClass('mr-2').text('Room Name:');
+		   const nameInputFilter = $('<input>').addClass('nameFilter form-control form-control-sm').attr('type', 'text').appendTo(nameFilter);
+		   nameFilter.prependTo(dataTablesFilter);
+		   
+		   const codeFilter = $('<label>').addClass('mr-2').text('Room Code:');
+		   const codeInputFilter = $('<input>').addClass('codeFilter form-control form-control-sm').attr('type', 'text').appendTo(codeFilter);
+		   codeFilter.prependTo(dataTablesFilter);
+		},
+		language: {
+	        emptyTable: "No Results.",
+	        zeroRecords: "No results."
+	    },
+	    order: [[0, 'asc']],
 		ajax: {
 			url: 'api/hospital_rooms',
 			dataSrc: ''
@@ -8,7 +58,7 @@ $(function () {
 			{data: 'roomCode'},
 			{data: 'roomName'},
 			{data: 'createdBy'},
-			{data: 'createdBy'},
+			{data: 'updatedBy'},
 			{
 				data: 'status',
 				width: '7em',
@@ -40,13 +90,14 @@ $(function () {
 				className: 'text-center',
                 render: function (data) {
                 	let btnContainer = $('<section>');
-                	
-                	$('<button>', {
-                		id: data.id,
-                		type: 'button',
-                		class: 'deleteBtn btn btn-outline-danger btn-sm m-1',
-                		text: 'Delete'
-                	}).appendTo(btnContainer).data('room.id', data.id);
+                	if (data.status === 0) {
+                		$('<button>', {
+                			id: data.id,
+                			type: 'button',
+                			class: 'deleteBtn btn btn-outline-danger btn-sm m-1',
+                			text: 'Delete'
+                		}).appendTo(btnContainer).data('room.id', data.id);
+					}
                 	
                 	let viewLink = $('<a>', {href: 'hospital_rooms/details/' + data.id}).appendTo(btnContainer);
                 	$('<button>', {
@@ -71,8 +122,6 @@ $(function () {
         }
 	});
 	
-//	console.log('DataTable', hospitalRoomTable.ajax.reload());
-	
 	hospitalRoomTable.on('click', '.deleteBtn', function() {
 		let roomData = $(this).parents('tr').data('room.data');
 		
@@ -82,38 +131,11 @@ $(function () {
 			text: 'Do you want to delete this room?',
 			ok: function(modal) {
 				window.location.href = 'hospital_rooms/delete/' + roomData.id;
-//				$.ajax({
-//					type: "DELETE",
-//					url: 'api/hospital_rooms/' + roomData.id,
-//					contentType: "application/json; charset=utf-8",
-//					dataType: "json",
-//					beforeSend: function () {
-//						$('#flash-message').remove(); // Remove if there is any previous flash message.
-//						modal.modal('hide');
-//						loading.appendTo('body');
-//					},
-//					success: function (data) {
-//						console.log('success', data);
-//						hospitalRoomTable.ajax.reload();
-//						loading.remove();
-//						
-//						sysAlert({
-//							text: data.response,
-//							type: 'info',
-//							delay: 2500
-//						});
-//						
-//					}, 
-//					error: function () {
-//						loading.remove();
-//						sysAlert({
-//							text: 'Unknown error!',
-//							type: 'danger',
-//							delay: 2500
-//						});
-//					}
-//				});
 			}
 		});
 	});
+	
+	function filterColumn(i, val) {
+		$('#hospitalRoomTable').DataTable().column(i).search(val, true, true).draw();
+	}
 });

@@ -13,15 +13,17 @@ import static org.hibernate.cfg.AvailableSettings.USER;
 
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
@@ -29,11 +31,24 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import hospital.filter.MyWebFilter;
 
 @Configuration
-@PropertySource("classpath:db.properties")
+//@PropertySource("classpath:db.properties")
+@PropertySources({
+    @PropertySource("classpath:db.properties"),
+    @PropertySource("classpath:file-upload-config.properties")
+})
 @EnableTransactionManagement
-@ComponentScans(value = { @ComponentScan("hospital.dao"), @ComponentScan("hospital.service") })
+@ComponentScans(value = { @ComponentScan("hospital.dao"), 
+		@ComponentScan("hospital.service"), 
+		@ComponentScan("hospital.misc"),
+		@ComponentScan("hospital.filter")})
+@Import({
+    PropertySourcesPlaceholderConfigurer.class
+})
 public class AppConfig {
 
 	@Autowired
@@ -100,6 +115,18 @@ public class AppConfig {
 		messageSource.setDefaultEncoding("UTF-8");
 		messageSource.setCacheSeconds(0);
 		return messageSource;
+	}
+	
+	@Bean
+    public MyWebFilter myWebFilter(@Value("${file.root.dir}") String someParameter) {
+        return new MyWebFilter(someParameter);
+    }
+	
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver multipartResolver() {
+	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+	    multipartResolver.setMaxUploadSize(2000000);
+	    return multipartResolver;
 	}
 
 }
