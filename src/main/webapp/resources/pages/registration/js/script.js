@@ -23,62 +23,6 @@ $(function() {
 	let termsElem = $('#reg-agree');
 	let termsStatus = $('.reg-agree-status');
 	
-	$('#registrationForm').on('submit', function (e) {
-		e.preventDefault();
-		let form = $(this);
-		let fd = form.serializeForm();
-		
-		let modified = {
-			email: fd['email'],
-			password: fd['password'],
-			userType: fd['doctorCodeId'] ? 2 : 3,
-			registrationToken: null,
-			isConfirmed: false,
-			enabled: false,
-			userDetail: {
-				firstName: fd['firstName'],
-				lastName: fd['lastName'],
-				mobileNo: fd['mobileNo'],
-				gender: fd['gender'],
-				doctorCodeId: fd['doctorCodeId'] ? fd['doctorCodeId'] : null
-			}
-		}
-		
-		console.log('form data', modified);
-		
-		let loading = sysLoad();
-		$.ajax({
-			type: "POST",
-			url: 'api/users',
-			data: JSON.stringify(modified),
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			beforeSend: function () {
-				loading.appendTo('body');
-			},
-			success: function (data) {
-				console.log('success', data);
-				loading.remove();
-				
-				sysAlert({
-					text: 'Saving successful!',
-					type: 'info'
-				});
-				
-				form.trigger('reset');
-				clearForm();
-			}, 
-			error: function () {
-				loading.remove();
-				sysAlert({
-					text: errMsg,
-					type: 'Unkown Error!'
-				});
-				clearForm();
-			}
-		});
-	});
-	
 	$('.submit-button').on('click', function (e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -103,6 +47,9 @@ $(function() {
 		if (firstNameElem.val() === '') {
 			setStatus(firstNameStatus, 'invalid-feedback').text('First name is required!');
 			removeFieldStatus(firstNameElem).addClass('is-invalid');
+		}else if(!firstNameElem[0].checkValidity()) {
+			setStatus(firstNameStatus, 'invalid-feedback').text('First name should be 3-50 characters!');
+			removeFieldStatus(firstNameElem).addClass('is-invalid');
 		}else {
 			setStatus(firstNameStatus, 'valid-feedback').text('Looks good!');
 			removeFieldStatus(firstNameElem).addClass('is-valid');
@@ -111,6 +58,9 @@ $(function() {
 		
 		if (lastNameElem.val() === '') {
 			setStatus(lastNameStatus, 'invalid-feedback').text('Last name is required!');
+			removeFieldStatus(lastNameElem).addClass('is-invalid');
+		}else if(!lastNameElem[0].checkValidity()) {
+			setStatus(lastNameStatus, 'invalid-feedback').text('Last name should be 3-50 characters!');
 			removeFieldStatus(lastNameElem).addClass('is-invalid');
 		}else {
 			setStatus(lastNameStatus, 'valid-feedback').text('Looks good!');
@@ -221,8 +171,8 @@ $(function() {
 		loading.appendTo($('body'));
 		$.when($.getJSON('api/doctor_code/' + doctorElemVal), $.getJSON('api/users/email/' + emailElemVal + '/'))
 		.then(function(doctor, user) {
-			console.log('api/doctor_code/', doctor[0]);
-			console.log('api/users/email/', user[0]);
+//			console.log('api/doctor_code/', doctor[0]);
+//			console.log('api/users/email/', user[0]);
 			
 			if (isDoctorCodeValid){
 				
@@ -249,12 +199,9 @@ $(function() {
 				}else {
 					setStatus(emailStatus, 'invalid-feedback').text('Email is already used!');
 					removeFieldStatus(emailElem).addClass('is-invalid');
-					validateFirst = validateFirst == null ? 'reg-email' : validateFirst;
 					isEmailAjaxValid = false;
 				}
 			}
-			
-			loading.remove();
 			
 			let validateFirst = null;
 			let isValid = Object.keys(validationElem).every(function(key) {
@@ -265,12 +212,10 @@ $(function() {
 				}
 			});
 			
-			console.log('isValid', isValid);
-			console.log('isDoctorAjaxValid', isDoctorAjaxValid);
-			console.log('isEmailAjaxValid', isEmailAjaxValid);
 			if(isValid && isDoctorAjaxValid && isEmailAjaxValid) {
 				$('#registrationForm').find('.dummy-submit').click();
 			}else {
+				loading.remove();
 				console.log('validateFirst', validateFirst);
 				window.location.href = '#' + validateFirst;
 			}
@@ -295,31 +240,5 @@ $(function() {
 	function isMobileValid(num) {
 		const pattern = /^[0-9]+$/;
 		return num.match(pattern) != null;
-	}
-	
-	function clearForm() {
-		setStatus(emailStatus, '').text('');
-		removeFieldStatus(emailElem);
-		
-		setStatus(doctorStatus, '').text('');
-		removeFieldStatus(doctorElem);
-		
-		setStatus(firstNameStatus, '').text('');
-		removeFieldStatus(firstNameElem);
-		
-		setStatus(lastNameStatus, '').text('');
-		removeFieldStatus(lastNameElem);
-		
-		setStatus(mobileStatus, '').text('');
-		removeFieldStatus(mobileElem);
-		
-		setStatus(passStatus, '').text('');
-		removeFieldStatus(passElem);
-		
-		setStatus(passConfirmStatus, '').text('');
-		removeFieldStatus(passConfirmElem);
-		
-		setStatus(termsStatus, '').text('');
-		removeFieldStatus(termsElem);
 	}
 });
