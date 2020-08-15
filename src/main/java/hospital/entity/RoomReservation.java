@@ -17,14 +17,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 /**
@@ -34,7 +34,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
 @Table(name="room_reservation")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class RoomReservation {
     
 	@Id
@@ -49,6 +49,7 @@ public class RoomReservation {
 			CascadeType.REFRESH,
 			}
 	)
+	@JsonManagedReference
 	@JoinColumn(name="hospital_room_id")
 	private HospitalRoom hospitalRoom;
 	
@@ -57,6 +58,12 @@ public class RoomReservation {
 	
 	@Column(name="reserved_by_user_id")
 	private String reservedByUserId;
+	
+	@Column(name="has_associated_appointment")
+	private boolean hasAssociatedAppointment;
+	
+	@Column(name="associated_appointment_id")
+	private Integer associatedAppointmentId;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@JsonDeserialize(using = LocalDateDeserializer.class)
@@ -85,18 +92,19 @@ public class RoomReservation {
 	@Column(name="created_by")
 	private String createdBy;
 	
+	@Column(name="updated_by")
+	private String updatedBy;
+	
 	@Column(name="reservation_status")
 	private int reservationStatus;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonSerialize(using = LocalTimeSerializer.class)
-	@JsonDeserialize(using = LocalTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@Column(name="created")
 	private LocalDateTime created;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonSerialize(using = LocalTimeSerializer.class)
-	@JsonDeserialize(using = LocalTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@Column(name="modified")
 	private LocalDateTime modified;
 	
@@ -104,8 +112,7 @@ public class RoomReservation {
 	private boolean deleted;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonSerialize(using = LocalTimeSerializer.class)
-	@JsonDeserialize(using = LocalTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@Column(name="deleted_date")
 	private LocalDateTime deletedDate;
 
@@ -220,6 +227,28 @@ public class RoomReservation {
 	public void setDeletedDate(LocalDateTime deletedDate) {
 		this.deletedDate = deletedDate;
 	}
-	
-	
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public boolean isHasAssociatedAppointment() {
+		return hasAssociatedAppointment;
+	}
+
+	public void setHasAssociatedAppointment(boolean hasAssociatedAppointment) {
+		this.hasAssociatedAppointment = hasAssociatedAppointment;
+	}
+
+	public Integer getAssociatedAppointmentId() {
+		return associatedAppointmentId;
+	}
+
+	public void setAssociatedAppointmentId(Integer associatedAppointmentId) {
+		this.associatedAppointmentId = associatedAppointmentId;
+	}
 }

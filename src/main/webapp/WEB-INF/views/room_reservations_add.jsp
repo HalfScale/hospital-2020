@@ -46,7 +46,7 @@
 				
 				<div class="form-group">
 					<label for="appointment-id">Associated Appointment ID</label>
-					<input type="text" id="appointment-id" class="form-control appointmentId" name="" required/>
+					<input type="text" id="appointment-id" class="form-control appointmentId" name=""/>
 				</div>
 				
 				<div class="form-group">
@@ -56,7 +56,8 @@
 				
 				<div class="form-group">
 					<label for="appointment-id">Reservation Time</label>
-					<input type="time" id="reservation-time" class="reservedTime form-control" name="reservedTime" value="01:00" step="2" required>
+					<input type="time" id="reservation-time" class="reservedTime form-control" name="reservedTime" value="01:00" required>
+					<small id="reservation-time-help" class="form-text text-muted">Use directional keys or inputs to modify the time.</small>
 				</div>
 				
 				<div class="form-group">
@@ -66,9 +67,10 @@
 				
 				<div class="form-group">
 					<label for="appointment-id">Reservation End Time</label>
-					<input type="time" id="reservation-end-time" class="reservedEndTime form-control" value="01:00" step="2" name="reservedEndTime" required>
+					<input type="time" id="reservation-end-time" class="reservedEndTime form-control" value="01:00" name="reservedEndTime" required>
+					<small id="reservation-end-time-help" class="form-text text-muted">Use directional keys or inputs to modify the time.</small>
 				</div>
-
+		
 				<a href="${pageContext.request.contextPath}/reservations"><button type="button" class="btn btn-primary">Back</button></a>
 				<button type="submit" class="btn btn-primary">Save</button>
 			</form>

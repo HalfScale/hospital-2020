@@ -46,24 +46,39 @@
 					</tr>
 					<tr>
 						<td>Reservation Date</td>
-						<td class="reservedDate">${reservedDate}</td>
+						<td class="reservedDate">${formattedReservedDate}</td>
 					</tr>
 					<tr>
 						<td>Reservation Time</td>
-						<td class="reservedTime">${reservedTime}</td>
+						<td class="reservedTime">${formatedReservedTime}</td>
 					</tr>
 					<tr>
 						<td>Reservation End Date</td>
-						<td class="reservedEndTime">${reservedEndTime}</td>
+						<td class="reservedEndTime">${formattedReservedEndDate}</td>
 					</tr>
 					<tr>
 						<td>Reservation End Time</td>
-						<td class="reservedEndDate">${reservedEndDate}</td>
+						<td class="reservedEndDate">${formatedReservedEndTime}</td>
 					</tr>
 	            </tbody>
         	</table>
-        	<a href="../../reservations"><button class="btn btn-primary m-1">Back</button></a>
-        	<button class="confirmBtn btn btn-primary m-1">Confirm</button>
+        	
+        	<!-- Form to be submitted -->
+        	<form class="hidden-widget" action="../processReservation" method="POST">
+        		<input type="hidden" name="hospitalRoom" value="${hospitalRoom}"/>
+        		<input type="hidden" name="roomCode" value="${roomCode}"/>
+        		<input type="hidden" name="reservedDate" value="${reservedDate}"/>
+        		<input type="hidden" name="reservedTime" value="${reservedTime}"/>
+        		<input type="hidden" name="reservedEndDate" value="${reservedEndDate}"/>
+        		<input type="hidden" name="reservedEndTime" value="${reservedEndTime}"/>
+        		
+        		<input type="submit" class="dummy-submit"/>
+        	</form>
+        	
+        	<a href="../../reservations/add?room=${hospitalRoom}&roomCode=${roomCode}&reservedDate=${reservedDate}&reservedTime=${reservedTime}&reservedEndTime=${reservedEndTime}&reservedEndDate=${reservedEndDate}">
+        		<button type="button" class="btn btn-primary m-1">Back</button>
+        	</a>
+        	<button type="button" class="confirmBtn btn btn-primary m-1">Confirm</button>
 		</div>
 	</jsp:body>
 </t:system_page>

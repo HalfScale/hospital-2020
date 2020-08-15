@@ -20,6 +20,13 @@ public class RoomReservationServiceImpl implements RoomReservationService {
 	public List<RoomReservation> getRoomReservations() {
 		return roomReservationDao.getRoomReservations();
 	}
+	
+	@Override
+	@Transactional
+	public List<RoomReservation> getRoomReservations(int userId) {
+		return roomReservationDao.getRoomReservations(userId);
+	}
+	
 
 	@Override
 	@Transactional

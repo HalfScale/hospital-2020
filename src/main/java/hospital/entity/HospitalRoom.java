@@ -3,18 +3,19 @@
 package hospital.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  *
@@ -23,7 +24,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name="hospital_room")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class HospitalRoom {
     
 	@Id
@@ -64,8 +65,9 @@ public class HospitalRoom {
 	@Column(name="deleted_date")
 	private LocalDateTime deletedDate;
 	
-	@OneToOne(mappedBy="hospitalRoom")
-	private RoomReservation roomReservaition;
+	@JsonBackReference
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="hospitalRoom")
+	private List<RoomReservation> roomReservaition;
 
 	public int getId() {
 		return id;
@@ -115,11 +117,11 @@ public class HospitalRoom {
 		this.createdBy = createdBy;
 	}
 
-	public RoomReservation getRoomReservaition() {
+	public List<RoomReservation> getRoomReservaition() {
 		return roomReservaition;
 	}
 
-	public void setRoomReservaition(RoomReservation roomReservaition) {
+	public void setRoomReservaition(List<RoomReservation> roomReservaition) {
 		this.roomReservaition = roomReservaition;
 	}
 

@@ -24,6 +24,16 @@ public class RoomReservationDAOImpl implements RoomReservationDAO {
 		
 		return theQuery.getResultList();
 	}
+	
+	@Override
+	public List<RoomReservation> getRoomReservations(int userId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<RoomReservation> theQuery = currentSession.createQuery("from RoomReservation where deleted = 0 and reservedByUserId =:userId", RoomReservation.class);
+		theQuery.setParameter("userId", String.valueOf(userId));
+		
+		return theQuery.getResultList();
+	}
 
 	@Override
 	public void saveRoomReservation(RoomReservation roomReservation) {

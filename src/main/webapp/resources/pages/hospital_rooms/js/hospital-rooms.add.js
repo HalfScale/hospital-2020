@@ -25,6 +25,7 @@ $(function() {
 	let lastIndex = path.lastIndexOf("/");
 	let id = path.substring(lastIndex + 1);
 	
+	//We mapped add and edit pages as on route.
 	if(id != null && id != 'add') {
 		form.attr('action', '../../hospital_rooms?id=' + id);
 		

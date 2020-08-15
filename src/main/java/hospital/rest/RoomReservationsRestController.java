@@ -1,8 +1,9 @@
 package hospital.rest;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +16,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hospital.entity.MyResponseObject;
 import hospital.entity.RoomReservation;
+import hospital.entity.User;
+import hospital.facade.IAuthenticationFacade;
 import hospital.service.RoomReservationService;
 
 @RestController
 @RequestMapping("/api")
 public class RoomReservationsRestController {
+	private static final Logger logger = LogManager.getLogger(RoomReservationsRestController.class);
 	
 	@Autowired
 	private RoomReservationService roomReservationService;
 	
+	@Autowired
+    private IAuthenticationFacade authenticationFacade;
+	
 	@GetMapping("/room_reservations")
 	public List<RoomReservation> getRoomReservations() {
+		logger.debug("Accessing /room_reservations ->");
+//		User user = authenticationFacade.getUser();
+//		if (user != null) {
+//			if (user.getUserType() == 2) {
+//				return roomReservationService.getRoomReservations(user.getId());
+//			}
+//		}
 		return roomReservationService.getRoomReservations();
 	}
 	

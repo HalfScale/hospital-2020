@@ -35,27 +35,35 @@
 	            <tbody>
 					<tr>
 						<td>Room Code</td>
-						<td class="roomCode"></td>
+						<td class="roomCode">${roomCode}</td>
 					</tr>
 					<tr>
 						<td>Has Associated Appointment</td>
-						<td class="associatedAppointment"></td>
+						<td class="associatedAppointment">${hasAppointment}</td>
 					</tr>
 					<tr>
 						<td>Associated Appointment ID</td>
-						<td class="appointmentId"></td>
+						<td class="appointmentId">${appointmentId}</td>
 					</tr>
 					<tr>
 						<td>Reservation Date</td>
-						<td class="reservedDate"></td>
+						<td class="reservedDate">${reservedDate}</td>
 					</tr>
 					<tr>
 						<td>Reservation Time</td>
-						<td class="reservedTime"></td>
+						<td class="reservedTime">${reservedTime}</td>
+					</tr>
+					<tr>
+						<td>Reservation Date</td>
+						<td class="reservedDate">${reservedEndDate}</td>
+					</tr>
+					<tr>
+						<td>Reservation Time</td>
+						<td class="reservedTime">${reservedEndTime}</td>
 					</tr>
 					<tr>
 						<td>Room Details</td>
-						<td class="description"></td>
+						<td class="description">${roomDetails}</td>
 					</tr>
 	            </tbody>
         	</table>
