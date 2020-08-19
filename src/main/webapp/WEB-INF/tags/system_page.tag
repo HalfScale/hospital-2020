@@ -32,7 +32,7 @@
 					</security:authorize>
 					<a class="nav-item nav-link" href="#">Doctors</a>
 					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/reservations">Reservations</a>
-					<a class="nav-item nav-link" href="#">Appointments</a>
+					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/appointments">Appointments</a>
 				</div>
 				
 				<security:authorize access="isAuthenticated()">
