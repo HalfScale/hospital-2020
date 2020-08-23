@@ -103,5 +103,11 @@ public class UserDAOImpl implements UserDAO {
 		return user != null ? user : null;
 	}
 
-	
+	@Override
+	public List<User> findByType(int type) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<User> query = currentSession.createQuery("from User where user_type = 2");
+		return query.getResultList();
+	}
 }

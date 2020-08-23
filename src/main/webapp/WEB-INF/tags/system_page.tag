@@ -30,7 +30,7 @@
 					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/registration">Sign Up</a>
 					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/users/login">Login</a>
 					</security:authorize>
-					<a class="nav-item nav-link" href="#">Doctors</a>
+					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/doctors">Doctors</a>
 					<a class="nav-item nav-link" href="${pageContext.request.contextPath}/reservations">Reservations</a>
 					<a class="nav-item nav-link" href="#">Appointments</a>
 				</div>
