@@ -12,4 +12,5 @@ public interface UserService {
 	public void deleteUser(int id);
 	public User findEmail(String email);
 	public User findByToken(String token);
+	public List<User> findByType(int type);
 }

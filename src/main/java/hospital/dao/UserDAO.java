@@ -12,4 +12,5 @@ public interface UserDAO {
 	public User findUserByEmail(String email);
 	public User findEmail(String email);
 	public User findByToken(String token);
+	public List<User> findByType(int type);
 }

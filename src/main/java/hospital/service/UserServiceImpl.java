@@ -57,6 +57,12 @@ public class UserServiceImpl implements UserService {
 	public User findByToken(String token) {
 		return userDao.findByToken(token);
 	}
+
+	@Override
+	@Transactional
+	public List<User> findByType(int type) {
+		return userDao.findByType(type);
+	}
 	
 	
 
