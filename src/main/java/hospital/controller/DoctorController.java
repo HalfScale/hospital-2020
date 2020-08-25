@@ -30,7 +30,7 @@ public class DoctorController {
 		User user = userSerivce.getUser(id);
 		DoctorCode doctorCode = doctorCodeService.getDoctorCode(user.getUserDetail().getDoctorCodeId());
 		
-		model.addAttribute("user", user);
+		model.addAttribute("doctorUser", user);
 		model.addAttribute("doctor", doctorCode);
 		return "doctors_profile";
 	}
@@ -40,7 +40,7 @@ public class DoctorController {
 		User user = userSerivce.getUser(id);
 		DoctorCode doctorCode = doctorCodeService.getDoctorCode(user.getUserDetail().getDoctorCodeId());
 		
-		model.addAttribute("user", user);
+		model.addAttribute("doctorUser", user);
 		model.addAttribute("doctor", doctorCode);
 		return "doctors_edit";
 	}

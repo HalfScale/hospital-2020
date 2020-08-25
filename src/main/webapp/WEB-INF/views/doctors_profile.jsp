@@ -11,7 +11,7 @@
 
 	<jsp:attribute name="scripts">
 		<script
-			src="${pageContext.request.contextPath}/resources/pages/registration/js/script.js"></script>
+			src="${pageContext.request.contextPath}/resources/pages/doctors/js/doctors.details.js"></script>
 	</jsp:attribute>
 
 	<jsp:body>
@@ -23,23 +23,23 @@
 		    <div class="col-sm">
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">First Name:</span>
-		    		<span class="text-muted lead">${user.userDetail.firstName}</span>
+		    		<span class="text-muted lead">${doctorUser.userDetail.firstName}</span>
 		    	</section>
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">Last Name:</span>
-		    		<span class="text-muted lead">${user.userDetail.lastName}</span>
+		    		<span class="text-muted lead">${doctorUser.userDetail.lastName}</span>
 		    	</section>
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">Email Address:</span>
-		    		<span class="text-muted lead">${user.email}</span>
+		    		<span class="text-muted lead">${doctorUser.email}</span>
 		    	</section>
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">Mobile No:</span>
-		    		<span class="text-muted lead">${user.userDetail.mobileNo}</span>
+		    		<span class="text-muted lead">${doctorUser.userDetail.mobileNo}</span>
 		    	</section>
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">Birthdate (yyyy-mm-dd):</span>
-		    		<span class="text-muted lead">${not empty user.userDetail.birthDate ? user.userDetail.birthDate : 'N/A'}</span>
+		    		<span class="text-muted lead">${not empty doctorUser.userDetail.birthDate ? doctorUser.userDetail.birthDate : 'N/A'}</span>
 		    	</section>
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">Specialization:</span>
@@ -47,26 +47,26 @@
 		    	</section>
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">Gender:</span>
-		    		<span class="text-muted lead"> ${user.userDetail.gender eq '1' ? 'Male' : 'Female'}</span>
+		    		<span class="text-muted lead"> ${doctorUser.userDetail.gender eq '1' ? 'Male' : 'Female'}</span>
 		    	</section>
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">No. of years in service:</span>
-		    		<span class="text-muted lead">${not empty user.userDetail.noOfYearsExperience ? user.userDetail.noOfYearsExperience : 'N/A'}</span>
+		    		<span class="text-muted lead">${not empty doctorUser.userDetail.noOfYearsExperience ? doctorUser.userDetail.noOfYearsExperience : 'N/A'}</span>
 		    	</section>
 		    </div>
 		    <div class="col-sm">
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">Education:</span>
-		    		<span class="text-muted lead">${not empty user.userDetail.education ? user.userDetail.education : 'N/A'}</span>
+		    		<span class="text-muted lead">${not empty doctorUser.userDetail.education ? doctorUser.userDetail.education : 'N/A'}</span>
 		    	</section>
 		    	<section class="mb-2">
 		    		<span class="mr-2 font-weight-bold">Schedule:</span>
-		    		<span class="text-muted lead">${not empty user.userDetail.schedule ? user.userDetail.schedule : 'N/A'}</span>
+		    		<span class="text-muted lead">${not empty doctorUser.userDetail.schedule ? doctorUser.userDetail.schedule : 'N/A'}</span>
 		    	</section>
 		    	<section>
 		    		<span class="mr-2 font-weight-bold">Expertise/Services:</span>
 		    		<blockquote class="text-muted lead"> 
-		    			${not empty user.userDetail.expertise ? user.userDetail.expertise : 'N/A'}
+		    			${not empty doctorUser.userDetail.expertise ? doctorUser.userDetail.expertise : 'N/A'}
 		    		</blockquote>
 		    	</section>
 		    </div>
@@ -74,7 +74,7 @@
 		
 		<section class="mt-3 text-center">
 			<a href="../../doctors"><button type="button" class="btn btn-primary mr-2">Back</button></a>
-			<button type="button" class="btn btn-primary">Create Appointment</button>
+			<button type="button" class="createBtn btn btn-primary">Create Appointment</button>
 		</section>
 		</div>
 	</jsp:body>

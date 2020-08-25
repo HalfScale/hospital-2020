@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath}/resources/common/jQuery/jquery-3.4.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/common/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/common/datatables/js/datatables.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/common/js/date.format.js"></script>
 <script src="${pageContext.request.contextPath}/resources/common/js/util.js"></script>
 
 <script>

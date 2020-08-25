@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/appointments")
 public class AppointmentController {
+	
+	@GetMapping
+	public String appointmentList() {
+		return "appointments";
+	}
 
 	@GetMapping("/add")
 	public String addApointment() {

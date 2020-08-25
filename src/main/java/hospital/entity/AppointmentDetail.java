@@ -3,8 +3,10 @@
 package hospital.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +14,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 /**
  *
@@ -31,6 +43,7 @@ public class AppointmentDetail {
 	@Column(name="id")
 	private int id;
 	
+	@JsonManagedReference
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="appointment_id")
 	private Appointment appointment;
@@ -47,16 +60,18 @@ public class AppointmentDetail {
 	@Column(name="gender")
 	private Integer gender;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonSerialize(using = LocalDateSerializer.class)
 	@Column(name="appointment_date")
 	private LocalDate appointmentDate;
 	
-	@DateTimeFormat(pattern = "HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@JsonSerialize(using = LocalTimeSerializer.class)
 	@Column(name="appointment_time")
 	private LocalTime appointmentTime;
 	
 	@Column(name="mobile_no")
-	private Integer mobileNo;
+	private long mobileNo;
 	
 	@Column(name="email")
 	private String email;
@@ -64,6 +79,22 @@ public class AppointmentDetail {
 	@Column(name="appointment_reason")
 	private String appointmentReason;
 	
+	@Column(name="cancel_reason")
+	private String cancelReason;
+	
+	@Column(name="created")
+	private LocalDateTime created;
+	
+	@Column(name="modified")
+	private LocalDateTime modified;
+	
+	@Column(name="deleted")
+	private boolean deleted;
+	
+	@Column(name="deleted_date")
+	private LocalDateTime deletedDate;
+	
+	@JsonBackReference
 	@OneToMany(mappedBy="appointmentDetail", cascade=CascadeType.ALL)
 	private List<AppointmentDetailHistory> appointmentDetailHistories;
 
@@ -131,11 +162,11 @@ public class AppointmentDetail {
 		this.appointmentTime = appointmentTime;
 	}
 
-	public Integer getMobileNo() {
+	public long getMobileNo() {
 		return mobileNo;
 	}
 
-	public void setMobileNo(Integer mobileNo) {
+	public void setMobileNo(long mobileNo) {
 		this.mobileNo = mobileNo;
 	}
 
@@ -154,6 +185,53 @@ public class AppointmentDetail {
 	public void setAppointmentReason(String appointmentReason) {
 		this.appointmentReason = appointmentReason;
 	}
-	
+
+	public String getCancelReason() {
+		return cancelReason;
+	}
+
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
+	}
+
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
+
+	public LocalDateTime getModified() {
+		return modified;
+	}
+
+	public void setModified(LocalDateTime modified) {
+		this.modified = modified;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
+	}
+
+	public List<AppointmentDetailHistory> getAppointmentDetailHistories() {
+		return appointmentDetailHistories;
+	}
+
+	public void setAppointmentDetailHistories(List<AppointmentDetailHistory> appointmentDetailHistories) {
+		this.appointmentDetailHistories = appointmentDetailHistories;
+	}
 	
 }

@@ -19,21 +19,14 @@
 			<h1 class="text-center">Hospital Name</h1>
 			<h5 class="text-center">Create Appointment</h5>
 			
-			<form action="confirm" method="POST">
+			<form action="confirm" action="" method="POST">
 			
 				<div class="form-group">
-					<label>First Name: </label>
-					<label></label>
+					<label>First Name: <b>${user.userDetail.firstName}</b> </label>
 				</div>
 				
 				<div class="form-group">
-					<label>Last Name: </label>
-					<label></label>
-				</div>
-				
-				<div class="form-group">
-					<label for="address">Address</label>
-					<input class="form-control address" name="address" required/>
+					<label>Last Name: <b>${user.userDetail.lastName}</b></label>
 				</div>
 				
 				<div class="form-group">
@@ -42,7 +35,7 @@
 				</div>
 				
 				<div class="form-group">
-					<label>Gender: </label>
+					<label>Gender: <b>${user.userDetail.gender eq '1' ? 'Male' : 'Female'}</b> </label>
 					<label></label>
 				</div>
 				
@@ -84,13 +77,11 @@
 				</div>
 				
 				<div class="form-group">
-					<label for="address">Mobile No:</label>
-					<input class="form-control address" name="address" required/>
+					<label for="address">Mobile No: <b>${user.userDetail.mobileNo}</b></label>
 				</div>
 				
 				<div class="form-group">
-					<label for="address">Email:</label>
-					<input class="form-control address" name="address" required/>
+					<label for="address">Email: <b>${user.email}</b></label>
 				</div>
 				
 				<div class="form-group">
