@@ -6,6 +6,7 @@
 package hospital.entity;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -30,8 +34,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name="users")
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class User {
+public class User implements UserDetails{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
@@ -100,7 +109,8 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	
+	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -117,6 +127,7 @@ public class User {
 		this.userDetail = userDetail;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -124,8 +135,9 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
-	public Set<Authorities> getAuthorities() {
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
 
@@ -187,6 +199,26 @@ public class User {
 
 	public void setDeletedDate(LocalDateTime deletedDate) {
 		this.deletedDate = deletedDate;
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
 	}
 	
 	
