@@ -19,6 +19,7 @@
     </head>
 
     <body>
+    	<security:authentication var="principal" property="principal" />
 		<nav id="system-top-nav" class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -37,19 +38,23 @@
 				
 				<security:authorize access="isAuthenticated()">
 				<ul class="navbar-nav mr-4">
-					<li class="nav-item dropdown">
-				        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				          ${user.userDetail.firstName} ${user.userDetail.lastName}
-				        </a>
-						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-				          <a class="dropdown-item" href="#">Messages</a>
-				          <a class="dropdown-item" href="#">Notifications</a>
-				          <div class="dropdown-divider"></div>
-				          <form:form action="${pageContext.request.contextPath}/logoutUser" method="POST">
-							<button type="submit" class="dropdown-item">Logout</button>
-						 </form:form>
-				        </div>
-			       </li>
+					<li>
+						<div class="btn-group">
+						  <!--  ${principal.userDetail.firstName} ${principal.userDetail.lastName} -->
+						  <a href="${pageContext.request.contextPath}/users/info"><button type="button" class="btn btn-primary">${user.userDetail.firstName} ${user.userDetail.lastName}</button></a>
+						  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <span class="sr-only">Toggle Dropdown</span>
+						  </button>
+						  <div class="dropdown-menu">
+						    <a class="dropdown-item" href="#">Messages</a>
+				            <a class="dropdown-item" href="#">Notifications</a>
+				            <div class="dropdown-divider"></div>
+						    <form:form action="${pageContext.request.contextPath}/logoutUser" method="POST">
+								<button type="submit" class="dropdown-item">Logout</button>
+						 	</form:form>
+						  </div>
+						</div>
+					</li>
 				</ul>
 				</security:authorize>
 			</div>

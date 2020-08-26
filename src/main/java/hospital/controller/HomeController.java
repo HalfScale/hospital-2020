@@ -7,12 +7,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import hospital.entity.User;
+import hospital.facade.IAuthenticationFacade;
 import hospital.service.UserService;
 
 @Controller
@@ -23,17 +25,27 @@ public class HomeController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private IAuthenticationFacade authenticationFacade;
 
 	@GetMapping
 	public ModelAndView viewHome(HttpServletRequest request) {
-        logger.info("Info log");
 		ModelAndView model = new ModelAndView("home");
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		Authentication auth = authenticationFacade.getAuthentication();
         
         if (!auth.getName().equals("anonymousUser")) {
-        	User user = userService.getUser(auth.getName());
+        	User user = null;
+        	String email = authenticationFacade.getEmail();
+        	
+        	//initally email is null
+        	if (email != null) {
+        		User checkUser = authenticationFacade.getUser();
+				user = userService.getUser(email);
+			}else {
+				user = authenticationFacade.getUser();
+			}
         	request.getSession().setAttribute("user", user);
 		}
         

@@ -7,11 +7,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 
 
 @Entity
 @Table(name = "authorities")
-public class Authorities {
+public class Authorities implements GrantedAuthority{
 
 	@Id
 	@Column(name = "authority")

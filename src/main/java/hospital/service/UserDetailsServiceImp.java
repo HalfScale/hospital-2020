@@ -1,5 +1,7 @@
 package hospital.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,8 @@ import hospital.entity.User;
 @Service("userDetailsService")
 public class UserDetailsServiceImp implements UserDetailsService {
 	
+	private static final Logger logger = LogManager.getLogger(UserDetailsServiceImp.class);
+	
 	@Autowired
 	private UserDAO userDao;
 	
@@ -27,7 +31,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
 		User user = userDao.findUserByEmail(email);
-		System.out.println("User value " + email);
+		logger.info("User value " + email);
 	    UserBuilder builder = null;
 	    
 	    if (user != null) {
@@ -53,7 +57,9 @@ public class UserDetailsServiceImp implements UserDetailsService {
 	    	throw new UsernameNotFoundException("User not found.");
 	    }
 	    
-	    return builder.build();
+	    logger.info("authorities " + user.getAuthorities());
+	    
+	    return user;
 	}
 
 }
