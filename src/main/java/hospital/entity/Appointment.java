@@ -3,11 +3,14 @@
 package hospital.entity;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +27,18 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="appointment")
 public class Appointment {
+	
+	public static class Status {
+
+		public static final String APPROVED = "approved";
+		public static final String PENDING = "pending";
+		public static final String CANCELLED_PATIENT = "cancelled-patient";
+		public static final String CANCELLED_HOSPITAL = "cancelled-hospital";
+
+		public static final List<String> _ALL = Arrays.asList(
+				APPROVED, CANCELLED_PATIENT, PENDING, CANCELLED_HOSPITAL
+		);
+	}
     
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -52,8 +67,8 @@ public class Appointment {
 	private LocalDateTime deletedDate;
 	
 	@JsonBackReference
-	@OneToMany(mappedBy="appointment", cascade=CascadeType.ALL)
-	private List<AppointmentHistory> appointmentHistories;
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="appointment", cascade=CascadeType.ALL)
+	private Set<AppointmentHistory> appointmentHistories;
 	
 	@JsonBackReference
 	@OneToOne(mappedBy="appointment", cascade=CascadeType.ALL)
@@ -127,11 +142,11 @@ public class Appointment {
 		this.deletedDate = deletedDate;
 	}
 
-	public List<AppointmentHistory> getAppointmentHistories() {
+	public Set<AppointmentHistory> getAppointmentHistories() {
 		return appointmentHistories;
 	}
 
-	public void setAppointmentHistories(List<AppointmentHistory> appointmentHistories) {
+	public void setAppointmentHistories(Set<AppointmentHistory> appointmentHistories) {
 		this.appointmentHistories = appointmentHistories;
 	}
 

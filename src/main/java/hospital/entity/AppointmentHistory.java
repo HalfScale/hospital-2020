@@ -2,6 +2,8 @@
 
 package hospital.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +40,18 @@ public class AppointmentHistory {
 	
 	@Column(name="appointment_status")
 	private String appointmentStatus;
+	
+	@Column(name="created")
+	private LocalDateTime created;
+	
+	@Column(name="modified")
+	private LocalDateTime modified;
+	
+	@Column(name="deleted")
+	private boolean deleted;
+	
+	@Column(name="deleted_date")
+	private LocalDateTime deletedDate;
 	
 	public int getId() {
 		return id;
@@ -78,6 +92,39 @@ public class AppointmentHistory {
 	public void setAppointmentStatus(String appointmentStatus) {
 		this.appointmentStatus = appointmentStatus;
 	}
+
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
+
+	public LocalDateTime getModified() {
+		return modified;
+	}
+
+	public void setModified(LocalDateTime modified) {
+		this.modified = modified;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
+	}
+	
 	
 	
 }

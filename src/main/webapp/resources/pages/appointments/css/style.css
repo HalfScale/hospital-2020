@@ -1,3 +1,7 @@
 .search-btn{
 	margin-right: 9px;
 }
+
+.user-name:hover{
+	font-weight: bold;
+}

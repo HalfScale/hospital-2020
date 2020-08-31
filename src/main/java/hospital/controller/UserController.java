@@ -14,12 +14,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -70,6 +70,30 @@ public class UserController {
 		}
 		
 		return "profile";
+	}
+	
+	@GetMapping("/users/info/{id}")
+	public String viewUserById(@PathVariable int id, Model model) {
+		User authUser = authenticationFacade.getUser();
+		
+		if (authUser == null) {
+			return "redirect:/";
+		}
+		
+		User user = userService.getUser(id);
+		model.addAttribute("userInfo", user);
+		
+		LocalDate birthDate = user.getUserDetail().getBirthDate();
+		if (birthDate != null) {
+			model.addAttribute("birthDate", Util.formatDate(birthDate, "MM/dd/yyyy"));
+		}
+		
+		if (user.getUserType() == 2) {
+			DoctorCode doctorCode = doctorCodeService.getDoctorCode(user.getUserDetail().getDoctorCodeId());
+			model.addAttribute("doctor", doctorCode);
+		}
+		
+		return "profile_view";
 	}
 	
 	@GetMapping("/users/edit/info")

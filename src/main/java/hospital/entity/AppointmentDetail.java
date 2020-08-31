@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,15 +19,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
@@ -60,15 +56,28 @@ public class AppointmentDetail {
 	@Column(name="gender")
 	private Integer gender;
 	
+	@Column(name="first_time")
+	private boolean firstTime;
+	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@JsonSerialize(using = LocalDateSerializer.class)
-	@Column(name="appointment_date")
-	private LocalDate appointmentDate;
+	@Column(name="appointment_start_date")
+	private LocalDate appointmentStartDate;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	@JsonSerialize(using = LocalTimeSerializer.class)
-	@Column(name="appointment_time")
-	private LocalTime appointmentTime;
+	@Column(name="appointment_start_time")
+	private LocalTime appointmentStartTime;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@Column(name="appointment_end_date")
+	private LocalDate appointmentEndDate;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@JsonSerialize(using = LocalTimeSerializer.class)
+	@Column(name="appointment_end_time")
+	private LocalTime appointmentEndTime;
 	
 	@Column(name="mobile_no")
 	private long mobileNo;
@@ -95,7 +104,7 @@ public class AppointmentDetail {
 	private LocalDateTime deletedDate;
 	
 	@JsonBackReference
-	@OneToMany(mappedBy="appointmentDetail", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="appointmentDetail", cascade=CascadeType.ALL)
 	private List<AppointmentDetailHistory> appointmentDetailHistories;
 
 	public int getId() {
@@ -144,22 +153,6 @@ public class AppointmentDetail {
 
 	public void setGender(Integer gender) {
 		this.gender = gender;
-	}
-
-	public LocalDate getAppointmentDate() {
-		return appointmentDate;
-	}
-
-	public void setAppointmentDate(LocalDate appointmentDate) {
-		this.appointmentDate = appointmentDate;
-	}
-
-	public LocalTime getAppointmentTime() {
-		return appointmentTime;
-	}
-
-	public void setAppointmentTime(LocalTime appointmentTime) {
-		this.appointmentTime = appointmentTime;
 	}
 
 	public long getMobileNo() {
@@ -233,5 +226,46 @@ public class AppointmentDetail {
 	public void setAppointmentDetailHistories(List<AppointmentDetailHistory> appointmentDetailHistories) {
 		this.appointmentDetailHistories = appointmentDetailHistories;
 	}
+
+	public boolean isFirstTime() {
+		return firstTime;
+	}
+
+	public void setFirstTime(boolean firstTime) {
+		this.firstTime = firstTime;
+	}
+
+	public LocalDate getAppointmentStartDate() {
+		return appointmentStartDate;
+	}
+
+	public void setAppointmentStartDate(LocalDate appointmentStartDate) {
+		this.appointmentStartDate = appointmentStartDate;
+	}
+
+	public LocalTime getAppointmentStartTime() {
+		return appointmentStartTime;
+	}
+
+	public void setAppointmentStartTime(LocalTime appointmentStartTime) {
+		this.appointmentStartTime = appointmentStartTime;
+	}
+
+	public LocalDate getAppointmentEndDate() {
+		return appointmentEndDate;
+	}
+
+	public void setAppointmentEndDate(LocalDate appointmentEndDate) {
+		this.appointmentEndDate = appointmentEndDate;
+	}
+
+	public LocalTime getAppointmentEndTime() {
+		return appointmentEndTime;
+	}
+
+	public void setAppointmentEndTime(LocalTime appointmentEndTime) {
+		this.appointmentEndTime = appointmentEndTime;
+	}
+	
 	
 }

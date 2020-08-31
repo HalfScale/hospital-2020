@@ -22,14 +22,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
+	@Transactional
 	public void saveAppointment(Appointment appointment) {
-		// TODO Auto-generated method stub
+		appointmentDao.saveAppointment(appointment);
 	}
 
 	@Override
+	@Transactional
 	public Appointment getAppointment(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return appointmentDao.getAppointment(id);
 	}
 
 	@Override

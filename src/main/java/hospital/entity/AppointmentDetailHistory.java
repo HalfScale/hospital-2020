@@ -3,6 +3,7 @@
 package hospital.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +17,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 /**
  *
@@ -50,22 +56,52 @@ public class AppointmentDetailHistory {
 	@Column(name="gender")
 	private Integer gender;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name="appointment_date")
-	private LocalDate appointmentDate;
+	@Column(name="first_time")
+	private boolean firstTime;
 	
-	@DateTimeFormat(pattern = "HH:mm:ss")
-	@Column(name="appointment_time")
-	private LocalTime appointmentTime;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@Column(name="appointment_start_date")
+	private LocalDate appointmentStartDate;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@JsonSerialize(using = LocalTimeSerializer.class)
+	@Column(name="appointment_start_time")
+	private LocalTime appointmentStartTime;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@Column(name="appointment_end_date")
+	private LocalDate appointmentEndDate;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@JsonSerialize(using = LocalTimeSerializer.class)
+	@Column(name="appointment_end_time")
+	private LocalTime appointmentEndTime;
 	
 	@Column(name="mobile_no")
-	private Integer mobileNo;
+	private Long mobileNo;
 	
 	@Column(name="email")
 	private String email;
 	
 	@Column(name="appointment_reason")
 	private String appointmentReason;
+	
+	@Column(name="cancel_reason")
+	private String cancelReason;
+	
+	@Column(name="created")
+	private LocalDateTime created;
+	
+	@Column(name="modified")
+	private LocalDateTime modified;
+	
+	@Column(name="deleted")
+	private boolean deleted;
+	
+	@Column(name="deleted_date")
+	private LocalDateTime deletedDate;
 
 	public int getId() {
 		return id;
@@ -123,27 +159,11 @@ public class AppointmentDetailHistory {
 		this.gender = gender;
 	}
 
-	public LocalDate getAppointmentDate() {
-		return appointmentDate;
-	}
-
-	public void setAppointmentDate(LocalDate appointmentDate) {
-		this.appointmentDate = appointmentDate;
-	}
-
-	public LocalTime getAppointmentTime() {
-		return appointmentTime;
-	}
-
-	public void setAppointmentTime(LocalTime appointmentTime) {
-		this.appointmentTime = appointmentTime;
-	}
-
-	public Integer getMobileNo() {
+	public Long getMobileNo() {
 		return mobileNo;
 	}
 
-	public void setMobileNo(Integer mobileNo) {
+	public void setMobileNo(Long mobileNo) {
 		this.mobileNo = mobileNo;
 	}
 
@@ -162,6 +182,85 @@ public class AppointmentDetailHistory {
 	public void setAppointmentReason(String appointmentReason) {
 		this.appointmentReason = appointmentReason;
 	}
-	
+
+	public boolean isFirstTime() {
+		return firstTime;
+	}
+
+	public void setFirstTime(boolean firstTime) {
+		this.firstTime = firstTime;
+	}
+
+	public LocalDate getAppointmentStartDate() {
+		return appointmentStartDate;
+	}
+
+	public void setAppointmentStartDate(LocalDate appointmentStartDate) {
+		this.appointmentStartDate = appointmentStartDate;
+	}
+
+	public LocalTime getAppointmentStartTime() {
+		return appointmentStartTime;
+	}
+
+	public void setAppointmentStartTime(LocalTime appointmentStartTime) {
+		this.appointmentStartTime = appointmentStartTime;
+	}
+
+	public LocalDate getAppointmentEndDate() {
+		return appointmentEndDate;
+	}
+
+	public void setAppointmentEndDate(LocalDate appointmentEndDate) {
+		this.appointmentEndDate = appointmentEndDate;
+	}
+
+	public LocalTime getAppointmentEndTime() {
+		return appointmentEndTime;
+	}
+
+	public void setAppointmentEndTime(LocalTime appointmentEndTime) {
+		this.appointmentEndTime = appointmentEndTime;
+	}
+
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
+
+	public LocalDateTime getModified() {
+		return modified;
+	}
+
+	public void setModified(LocalDateTime modified) {
+		this.modified = modified;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public LocalDateTime getDeletedDate() {
+		return deletedDate;
+	}
+
+	public void setDeletedDate(LocalDateTime deletedDate) {
+		this.deletedDate = deletedDate;
+	}
+
+	public String getCancelReason() {
+		return cancelReason;
+	}
+
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
+	}
 	
 }

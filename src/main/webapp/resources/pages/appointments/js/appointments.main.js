@@ -26,7 +26,9 @@ $(function() {
            input.parent().remove();
            const dataTablesFilter = $('.dataTables_filter').append($searchButton, $clearButton);
 			
-		   const patientFilter = $('<label>').addClass('mr-2').text('Patient Name:');
+           let searchType = $('#type-hospital').length !== 0 ? 'Patient' : 'Doctor';
+           
+		   const patientFilter = $('<label>').addClass('mr-2').text(searchType + ' Name:');
 		   const patientInputFilter = $('<input>').addClass('nameFilter form-control form-control-sm').attr('type', 'text').appendTo(patientFilter);
 		   patientFilter.prependTo(dataTablesFilter);
 		   
@@ -43,6 +45,7 @@ $(function() {
 	        zeroRecords: 'No Results Found.',
 	        loadingRecords: 'Loading...'
 	    },
+	    order: [[0, 'desc']],
 	    columns: [
 	    	{data: 'appointmentDetail.appointment.id'},
 	    	{
@@ -50,15 +53,17 @@ $(function() {
 	    		render: function(data) {
 	    			//If the logged in user is of type patient then display the name of the doctor
 	    			if ($('#type-patient').length > 0) {
-						return data.doctor.userDetail.firstName + ' ' + data.doctor.userDetail.lastName;
+	    				const doctorName = data.doctor.userDetail.firstName + ' ' + data.doctor.userDetail.lastName;
+						return $('<a>').attr('href', 'doctor/details/' + data.appointmentDetail.appointment.doctorId).addClass('user-name clicky').text(doctorName).prop('outerHTML');
 					}
-	    			return data.appointmentDetail.firstName + ' ' + data.appointmentDetail.lastName
+	    			const patientName = data.appointmentDetail.firstName + ' ' + data.appointmentDetail.lastName;
+	    			return $('<a>').attr('href', 'users/info/' + data.appointmentDetail.appointment.patientId).addClass('user-name clicky').text(patientName).prop('outerHTML');
 	    		}
 	    	},
 	    	{
 	    		data: null,
 	    		render: function(data) {
-	    			return new Date(data.appointmentDetail.appointmentDate + ' ' + data.appointmentDetail.appointmentTime).format('mm/dd/yyyy HH:MM');
+	    			return new Date(data.appointmentDetail.appointmentStartDate + ' ' + data.appointmentDetail.appointmentStartTime).format('mm/dd/yyyy HH:MM');
 	    		},
 	    	},
 	    	{data: 'appointmentDetail.email'},
@@ -82,7 +87,7 @@ $(function() {
 					}
 					
 					return $('<span>', {
-						class: 'badge badge-success',
+						class: 'badge badge-danger',
 						text: data === 'cancelled-patient' ? 'Cancelled-Patient' : 'Cancelled-Hospital'
 					}).prop('outerHTML');
 				}
@@ -94,19 +99,23 @@ $(function() {
                 render: function (data) {
                 	let btnContainer = $('<section>');
                 	
-                	let viewLink = $('<a>', {href: '#'}).appendTo(btnContainer);
+                	let viewLink = $('<a>', {href: 'appointments/details/' + data.appointmentDetail.appointment.id}).appendTo(btnContainer);
                 	$('<button>', {
                 		type: 'button',
                 		class: 'btn btn-outline-info btn-sm m-1',
                 		text: 'View'
                 	}).appendTo(viewLink);
                 	
-                	let editLink = $('<a>', {href: '#'}).appendTo(btnContainer);
-					$('<button>', {
-						type: 'button',
-						class: 'btn btn-outline-warning btn-sm m-1',
-						text: 'Edit'
-					}).appendTo(editLink);
+                	if (data.appointmentDetail.appointment.appointmentStatus === 'pending') {
+						
+                		let editLink = $('<a>', {href: 'appointments/edit/' + data.appointmentDetail.appointment.id}).appendTo(btnContainer);
+                		$('<button>', {
+                			type: 'button',
+                			class: 'btn btn-outline-warning btn-sm m-1',
+                			text: 'Edit'
+                		}).appendTo(editLink);
+					}
+                	
 
 					return btnContainer.prop('outerHTML');
                 }

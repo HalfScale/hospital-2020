@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import hospital.entity.Appointment;
+import hospital.entity.HospitalRoom;
 
 @Repository
 public class AppointmentDAOImpl implements AppointmentDAO {
@@ -26,14 +27,14 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 
 	@Override
 	public void saveAppointment(Appointment appointment) {
-		// TODO Auto-generated method stub
-
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.saveOrUpdate(appointment);
 	}
 
 	@Override
 	public Appointment getAppointment(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Session currentSession = sessionFactory.getCurrentSession();
+		return currentSession.get(Appointment.class, id);
 	}
 
 	@Override

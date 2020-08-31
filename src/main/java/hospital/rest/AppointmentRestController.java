@@ -18,12 +18,12 @@ public class AppointmentRestController {
 	@Autowired
 	private AppointmentService appointmentService;
 	
-	@GetMapping("/appointments")
-	public List<Map> getAppointments() {
-		return appointmentService.getAppointments().stream()
-				.map(a -> {
-					Map data = new HashMap();
-					data.put("appointment", a)
-				})
-	}
+//	@GetMapping("/appointments")
+//	public List<Map> getAppointments() {
+//		return appointmentService.getAppointments().stream()
+//				.map(a -> {
+//					Map data = new HashMap();
+//					data.put("appointment", a)
+//				})
+//	}
 }

@@ -15,6 +15,14 @@
 	</jsp:attribute>
 
 	<jsp:body>
+		<c:if test="${not empty message}">
+			<div id="flash-message" class="mx-auto text-center w-50 alert alert-success alert-dismissible fade show" role="alert">
+			  ${message}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+		</c:if>
 		<table id="appointmentList" class="table table-bordered table-hover w-100">
             <thead>
                 <tr>
