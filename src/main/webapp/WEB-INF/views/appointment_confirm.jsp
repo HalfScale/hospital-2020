@@ -11,7 +11,7 @@
 
 	<jsp:attribute name="scripts">
 		<script
-			src="${pageContext.request.contextPath}/resources/pages/appointments/js/appointment.add.edit.js"></script>
+			src="${pageContext.request.contextPath}/resources/pages/appointments/js/appointment.confirm.js"></script>
 	</jsp:attribute>
 
 	<jsp:body>
@@ -83,9 +83,9 @@
 			   <c:param name = "doctor" value = "${doctor}"/>
 			   <c:param name = "address" value = "${address}"/>
 			   <c:param name = "hospitalVisit" value = "${hospitalVisit}"/>
-			   <c:param name = "startDate" value = "${appointmentStartDate}"/>
+			   <c:param name = "startDate" value = "${startDate}"/>
 			   <c:param name = "startTime" value = "${appointmentStartTime}"/>
-			   <c:param name = "endDate" value = "${appointmentEndDate}"/>
+			   <c:param name = "endDate" value = "${endDate}"/>
 			   <c:param name = "endTime" value = "${appointmentEndTime}"/>
 			   <c:param name = "appointmentReason" value = "${reasonForAppointment}"/>
 		   </c:url>

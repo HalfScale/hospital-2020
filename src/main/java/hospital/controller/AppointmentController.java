@@ -3,6 +3,7 @@ package hospital.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,10 +11,15 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,9 +106,18 @@ public class AppointmentController {
 	
 	@GetMapping("/edit/{id}")
 	public String editAppointment(@PathVariable int id, Model model) {
+		User user = authFacade.getUser();
+		
+		if (user.getUserType() < 3) {
+			return "redirect:/appointments";
+		}
 		Appointment appointment = appointmentService.getAppointment(id);
 		model.addAttribute("appointment", appointment);
-		model.addAttribute("something", "something");
+		
+		String startDate = Util.formatDate(appointment.getAppointmentDetail().getAppointmentStartDate(), "MM/dd/yyyy");
+		String endDate = Util.formatDate(appointment.getAppointmentDetail().getAppointmentEndDate(), "MM/dd/yyyy");
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 		return "appointment_edit";
 	}
 	
@@ -129,6 +144,12 @@ public class AppointmentController {
 		params.put("startTime", startTime);
 		params.put("endDate", endDate);
 		params.put("endTime", endTime);
+		
+		String appointmentStartDate = Util.formatDate(LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")), "yyyy-MM-dd");
+		String appointmentEndDate = Util.formatDate(LocalDate.parse(endDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")), "yyyy-MM-dd");
+		
+		params.put("appointmentStartDate", appointmentStartDate);
+		params.put("appointmentEndDate", appointmentEndDate);
 		
 		model.addAllAttributes(params);
 		return "appointment_confirm";
@@ -216,10 +237,13 @@ public class AppointmentController {
 	@PostMapping("/processAppointment")
 	public String processAppointment(
 			@RequestParam Map<String, String> params, 
-			RedirectAttributes redirAttr) {
+			RedirectAttributes redirAttr,
+			HttpServletRequest request) {
 		
 		//Note that we use one process url for both add and edit
 		//This is for adding appointment
+		
+		User user = authFacade.getUser();
 		
 		int appointmentId = params.get("appointment") != null ? Integer.parseInt(params.get("appointment")) : -1;
 		
@@ -238,6 +262,23 @@ public class AppointmentController {
 		boolean firstTime = params.get("hospitalVisit").equals("Yes");
 		String appointmentReason = params.get("appointmentReason");
 		
+		if (user.getUserDetail().getAddress() == null || user.getUserDetail().getAddress().isEmpty()) {
+			user.getUserDetail().setAddress(address);
+			user.getUserDetail().setModified(LocalDateTime.now());
+			userService.saveUser(user);
+			
+			//Replaces the current session user with a new updated user.
+			Authentication auth = authFacade.getAuthentication();
+			Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), auth.getAuthorities());
+			SecurityContext securityContext = authFacade.getSecurityContext();
+		    securityContext.setAuthentication(newAuth);
+		    
+		    authFacade.setEmail(user.getEmail());
+			HttpSession session = request.getSession(true);
+		    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+		    session.setAttribute("user", user);
+		}
+		
 		if (appointmentId != -1) {
 			Appointment appointmentUpdate = appointmentService.getAppointment(appointmentId);
 			AppointmentDetail detailUpdate = appointmentUpdate.getAppointmentDetail();
@@ -245,9 +286,9 @@ public class AppointmentController {
 			
 			detailUpdate.setAddress(address);
 			detailUpdate.setFirstTime(firstTime);
-			detailUpdate.setAppointmentStartDate(LocalDate.parse(startDate));
+			detailUpdate.setAppointmentStartDate(LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 			detailUpdate.setAppointmentStartTime(LocalTime.parse(startTime));
-			detailUpdate.setAppointmentEndDate(LocalDate.parse(endDate));
+			detailUpdate.setAppointmentEndDate(LocalDate.parse(endDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 			detailUpdate.setAppointmentEndTime(LocalTime.parse(endTime));
 			detailUpdate.setAppointmentReason(appointmentReason);
 			detailUpdate.setModified(LocalDateTime.now());
@@ -257,18 +298,33 @@ public class AppointmentController {
 			detailHistory.setId(0); // sets zero since we are inserting a new one.
 			detailHistory.setAddress(address);
 			detailHistory.setFirstTime(firstTime);
-			detailHistory.setAppointmentStartDate(LocalDate.parse(startDate));
+			detailHistory.setAppointmentStartDate(LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 			detailHistory.setAppointmentStartTime(LocalTime.parse(startTime));
-			detailHistory.setAppointmentEndDate(LocalDate.parse(endDate));
+			detailHistory.setAppointmentEndDate(LocalDate.parse(endDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 			detailHistory.setAppointmentEndTime(LocalTime.parse(endTime));
 			detailHistory.setAppointmentReason(appointmentReason);
 			detailHistory.setModified(LocalDateTime.now());
 			detailHistory.setCreated(LocalDateTime.now());
 			
+			//updating user address during edit.
+			user.getUserDetail().setAddress(address);
+			user.getUserDetail().setModified(LocalDateTime.now());
+			userService.saveUser(user);
+			
+			Authentication auth = authFacade.getAuthentication();
+			Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), auth.getAuthorities());
+			SecurityContext securityContext = authFacade.getSecurityContext();
+		    securityContext.setAuthentication(newAuth);
+		    
+		    authFacade.setEmail(user.getEmail());
+			HttpSession session = request.getSession(true);
+		    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+		    session.setAttribute("user", user);
+			
 			redirAttr.addFlashAttribute("message", "Appointment Update Successful!");
 			appointmentService.saveAppointment(appointmentUpdate);
 			
-			return "redirect:/appointments";
+			return "redirect:/doctor/details/" + appointmentUpdate.getDoctorId();
 			
 		}
 			
@@ -331,7 +387,7 @@ public class AppointmentController {
 		appointmentService.saveAppointment(appointment);
 		
 		
-		return "appointment_complete";
+		return "redirect:/appointments/add/complete";
 		
 	}
 	

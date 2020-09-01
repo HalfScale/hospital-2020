@@ -11,14 +11,16 @@
 
 	<jsp:attribute name="scripts">
 		<script
-			src="${pageContext.request.contextPath}/resources/pages/appointments/js/appointment.add.edit.js"></script>
+			src="${pageContext.request.contextPath}/resources/pages/appointments/js/appointment.edit.js"></script>
 	</jsp:attribute>
 
 	<jsp:body>
 		<div class="mx-auto mt-4 w-50 shadow p-3 mb-5 bg-white rounded">
 			<h1 class="text-center">Hospital Name</h1>
 			<h5 class="text-center">Create Appointment</h5>
-			<form action="${pageContext.request.contextPath}/appointments/processAppointment" method="POST">
+			<input id="startTime" type="hidden" value="${appointment.appointmentDetail.appointmentStartTime}"/>
+			<input id="endTime" type="hidden" value="${appointment.appointmentDetail.appointmentEndTime}"/>
+			<form action="${pageContext.request.contextPath}/appointments/processAppointment" method="POST" novalidate>
 				
 				<input type="hidden" name="appointment" value="${appointment.id}" />
 			
@@ -32,7 +34,10 @@
 				
 				<div class="form-group">
 					<label for="address">Address</label>
-					<input class="form-control address" name="address" value="${appointment.appointmentDetail.address}" required/>
+					<input id="address" class="form-control address" name="address" value="${appointment.appointmentDetail.address}"/>
+					<div class="address-status">
+        		
+      				</div>
 				</div>
 				
 				<div class="form-group">
@@ -57,24 +62,28 @@
 				
 				<div class="form-group">
 					<label for="appointment-start-date">Appointment Start Date</label>
-					<input type="date" id="appointment-start-date" class="appointmentStartDate form-control" value="${appointment.appointmentDetail.appointmentStartDate}" name="startDate" min="1950-01-01" required>
+					<input type="text" id="appointment-start-date" class="appointmentStartDate form-control" value="${startDate}" name="startDate" placeholder="mm/dd/yyyy" />
+					<div class="appointment-start-date-status">
+        		
+      				</div>
 				</div>
 				
 				<div class="form-group">
 					<label for="appointment-start-time">Appointment Start Time</label>
-					<input type="time" id="appointment-start-time" class="appointmentStartTime form-control" value="${appointment.appointmentDetail.appointmentStartTime}" name="startTime" required>
-					<small class="form-text text-muted">Use directional keys or inputs to modify the time.</small>
+					<input type="text" id="appointment-start-time" class="appointmentStartTime form-control" name="startTime" />
 				</div>
 				
 				<div class="form-group">
 					<label for="appointment-end-date">Appointment End Date</label>
-					<input type="date" id="appointment-end-date" class="appointmentStartDate form-control" value="${appointment.appointmentDetail.appointmentEndDate}" name="endDate" min="1950-01-01" required>
+					<input type="text" id="appointment-end-date" class="appointmentStartDate form-control" value="${endDate}" placeholder="mm/dd/yyyy" name="endDate" />
+					<div class="appointment-end-date-status">
+        		
+      				</div>
 				</div>
 				
 				<div class="form-group">
 					<label for="appointment-end-time">Appointment End Time</label>
-					<input type="time" id="appointment-end-time" class="appointmentStartTime form-control" value="${appointment.appointmentDetail.appointmentEndTime}" name="endTime" value="01:00" required>
-					<small class="form-text text-muted">Use directional keys or inputs to modify the time.</small>
+					<input type="text" id="appointment-end-time" class="appointmentStartTime form-control" name="endTime" />
 				</div>
 				
 				<div class="form-group">
@@ -87,12 +96,19 @@
 				
 				<div class="form-group">
 					<label for="reason-for-appointment">Reason for appointment:</label>
-					<textarea id="reason-for-appointment" class="form-control reasonForAppointment" name="appointmentReason" rows="3" required>${appointment.appointmentDetail.appointmentReason}</textarea>
+					<textarea id="reason-for-appointment" maxlength="250" class="form-control reasonForAppointment" name="appointmentReason" rows="3">${appointment.appointmentDetail.appointmentReason}</textarea>
+					<div class="reason-for-appointment-status">
+        		
+      				</div>
 				</div>
 				
-				<a href="${pageContext.request.contextPath}/appointments"><button type="button" class="btn btn-primary">Back</button></a>
-				<button type="submit" class="btn btn-primary">Save</button>
+				<input type="submit" class="dummy-submit" />
 			</form>
+			
+			<section>
+				<a href="${pageContext.request.contextPath}/doctor/details/${appointment.doctorId}"><button type="button" class="btn btn-primary">Back</button></a>
+				<button type="submit" class="saveBtn btn btn-primary">Update</button>
+			</section>
 		</div>
 	</jsp:body>
 </t:system_page>

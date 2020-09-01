@@ -1,6 +1,4 @@
 $(function () {
-	
-	let unavailableDates = [];
 	const load = sysLoad().appendTo('body');
 	
 	const startDate = $('#appointment-start-date');
@@ -9,108 +7,108 @@ $(function () {
 	const endDate = $('#appointment-end-date');
 	const endDateStatus = $('.appointment-end-date-status');
 	
-	$.getJSON($g.root_path + '/api/appointment_details_raw').done(function (result) {
+	const unavailableDates = [];
+	$.getJSON($g.root_path + '/api/appointment_details_raw').done(function(result) {
 		result.forEach(a => unavailableDates.push(a.appointmentStartDate));
 		
 		startDate.datepicker({
 			dateFormat: 'mm/dd/yy',
 			minDate: 0,
-			beforeShowDay: unavailable
+			beforeShowDay: unavailable,
+		    changeMonth: true,
+		    changeYear: true
 		});
 		
 		endDate.datepicker({
 			dateFormat: 'mm/dd/yy',
 			minDate: 0,
-			beforeShowDay: unavailable
+			beforeShowDay: unavailable,
+		    changeMonth: true,
+		    changeYear: true
 		});
 		
 		load.remove();
 	});
 	
-	const address = $('#address');
-	const addressStatus = $('.address-status');
-	
-	let time = [
+	let timeList = [
 		'01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00',
 		'08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
 		'15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00',
 		'22:00', '23:00'
 	];
 	
+	let allowedTime = [];
+	
 	const startTime = $('#appointment-start-time');
-	const startTimeStatus = $('.appointment-start-time-status');
-	
 	const endTime = $('#appointment-end-time');
-	const endTimeStatus = $('.appointment-end-time-status');
-	
-	let allowed = [];
 	
 	$.getJSON($g.root_path + '/api/appointment_details/time').done(function(result) {
-		let filtered = time.filter(t => { return result.indexOf(t) == -1});
+		console.log('/api/appointment_details/time', result);
+		
+		const filtered = timeList.filter(t => { return result.indexOf(t) == -1; });
+		console.log('filtered', filtered);
 		
 		//only allow the time that is greater or equal to current time
 		const today = new Date();
 		
-		let allowedTime = filtered.filter(at => {
+		allowedTime = filtered.filter(at => {
 			const todayHr = today.getHours();
 			
 			const split = at.split(':');
 			const hour = Number(split[0]);
 			
-			if(hour > todayHr){
-				console.log('hours', hour, 'todayHr', todayHr);
-			}
-			
 			return hour >= todayHr;
 		});
 		
-		allowed = allowedTime;
+		console.log('allowedTime', allowedTime);
+		load.remove();
 		
-		console.log('allowerd', allowed);
+		const startTimeDefault = $('#startTime').val();
 		
 		startTime.datetimepicker({
 			datepicker: false,
 			format: 'H:i',
 			mask: true,
-			allowTimes: allowed,
-			value: allowed[0],
+			value: startTimeDefault,
+			allowTimes: allowedTime,
 			onChangeDateTime: function(current, elem) {
-				let validTime = resetTime(allowed);
-				console.log('validTime', validTime);
+				const validTime = resetTime(allowedTime);
 				
 				if (validTime.indexOf(elem.val()) === -1) {
 					this.setOptions({
-						value: validTime[0]
+						value: startTimeDefault
 					});
 				}
 			}
 		});
+		
+		const endTimeDefault = $('#endTime').val();
 		
 		endTime.datetimepicker({
 			datepicker: false,
 			format: 'H:i',
 			mask: true,
-			allowTimes: allowed,
-			value: allowed[0],
+			value: startTimeDefault,
+			allowTimes: allowedTime,
 			onChangeDateTime: function(current, elem) {
-				let validTime = resetTime(allowed);
-				console.log('validTime', validTime);
+				const validTime = resetTime(allowedTime);
 				
 				if (validTime.indexOf(elem.val()) === -1) {
 					this.setOptions({
-						value: validTime[0]
+						value: endTimeDefault
 					});
 				}
 			}
 		});
-		
 	});
+	
+	const address = $('#address');
+	const addressStatus = $('.address-status');
 	
 	const appointmentReason = $('#reason-for-appointment');
 	const appointmentReasonStatus = $('.reason-for-appointment-status');
 	
-	$('.saveBtn').on('click', function() {
-		
+	$('.saveBtn').on('click', function () {
 		let validationElem = {
 			'address': false,
 			'appointment-start-date': false,
@@ -176,6 +174,14 @@ $(function () {
 		}
 	});
 	
+	function setStatus(elem, status) {
+		return elem.removeClass('valid-feedback invalid-feedback').addClass(status);
+	}
+	
+	function removeFieldStatus(elem) {
+		return elem.removeClass('is-valid is-invalid');
+	}
+	
 	function isDateValid(date) {
 		const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
 		
@@ -198,22 +204,6 @@ $(function () {
 	  return [unavailableDates.indexOf(string) == -1];
     }
 	
-	function setStatus(elem, status) {
-		return elem.removeClass('valid-feedback invalid-feedback').addClass(status);
-	}
-	
-	function removeFieldStatus(elem) {
-		return elem.removeClass('is-valid is-invalid');
-	}
-	
-	function unavailable(date) {
-	  let string = $.datepicker.formatDate('yy-mm-dd', date);
-	  console.log('string', string);
-	  return [ unavailableDates.indexOf(string) == -1 ];
-    }
-	
-	//this functions resets the value of the allowed time
-	//if user keeps changing the time
 	function resetTime(arrTime) {
 		const today = new Date();
 		
@@ -226,4 +216,5 @@ $(function () {
 			return hour >= todayHr;
 		});
 	}
+	
 });

@@ -11,7 +11,7 @@
 
 	<jsp:attribute name="scripts">
 		<script
-			src="${pageContext.request.contextPath}/resources/pages/appointments/js/appointment.add.edit.js"></script>
+			src="${pageContext.request.contextPath}/resources/pages/appointments/js/appointment.add.js"></script>
 	</jsp:attribute>
 
 	<jsp:body>
@@ -76,7 +76,7 @@
 				
 				<div class="form-group">
 					<label for="appointment-start-time">Appointment Start Time</label>
-					<input type="text" id="appointment-start-time" class="w-25 appointmentStartTime form-control" value="${not empty param.startTime ? param.startTime : '01:00'}" name="appointmentStartTime" required>
+					<input type="text" id="appointment-start-time" class="w-25 appointmentStartTime form-control" name="appointmentStartTime" required>
 					<div class="appointment-start-time-status">
         		
       				</div>
@@ -92,7 +92,7 @@
 				
 				<div class="form-group">
 					<label for="appointment-end-time">Appointment End Time</label>
-					<input type="text" id="appointment-end-time" class="w-25 appointmentStartTime form-control" value="${not empty param.endTime ? param.endTime : '01:00'}" name="appointmentEndTime" value="01:00" required>
+					<input type="text" id="appointment-end-time" class="w-25 appointmentStartTime form-control" name="appointmentEndTime" value="01:00" required>
 					<div class="appointment-end-time-status">
         		
       				</div>
