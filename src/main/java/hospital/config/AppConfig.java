@@ -96,8 +96,8 @@ public class AppConfig {
 		javaMailSender.setHost("smtp.gmail.com");
 		javaMailSender.setPort(587);
 		javaMailSender.setProtocol("smtp");
-		javaMailSender.setUsername("halfscale3@gmail.com");
-		javaMailSender.setPassword("barser99");
+		javaMailSender.setUsername("username");
+		javaMailSender.setPassword("password");
 		Properties mailProperties = new Properties();
 		mailProperties.put("mail.smtp.auth", "true");
 		mailProperties.put("mail.smtp.starttls.enable", "true");
